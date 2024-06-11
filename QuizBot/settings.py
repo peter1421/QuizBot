@@ -52,9 +52,6 @@ INSTALLED_APPS = [
     "client.home.apps.ClientHomeConfig",
     "apps.accounts.apps.AccountConfig",
     "client.account.apps.ClientAccountConfig",
-
-
-    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -163,7 +160,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.SiteUser"
 LOGIN_URL = "/accounts/login/"
 
-CSRF_TRUSTED_ORIGINS = ["https://*", "http://*"]
+# CSRF_TRUSTED_ORIGINS = ["https://*", "http://*"]
+CSRF_TRUSTED_ORIGINS = ['https://*.azurewebsites.net']
 
 X_FRAME_OPTIONS = "ALLOW-FROM uri"
 

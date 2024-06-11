@@ -18,9 +18,6 @@ Including another URLconf
 
 from django.shortcuts import redirect
 from django.urls import include, path
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions
 
 # from apps.member.views.crud import TmlMemberViewSet
 
@@ -34,18 +31,11 @@ def redirect_to_musics(request):
     return redirect("/home/")  # 重定向
 
 
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Episyche Technologies",
-        default_version="v1"),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
+
 
 urlpatterns = [
     path("", redirect_to_musics),  # 當訪問根 URL 時，執行重定向
-    path("docs/", schema_view.with_ui("swagger",
-         cache_timeout=0), name="schema-swagger-ui"),
+
     # path("admin/", admin.site.urls),
     # path('callback', views.callback),
     path("home/", include("apps.home.urls")),
