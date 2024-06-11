@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'management_sample/includes/head.html' %}
+    <p>
+      {% comment %} {% block extrahead %}{% endblock extrahead %} {% block
+      extrastyle %}{% endblock extrastyle %} {% endcomment %}
+    </p>
+  </head>
+
+  <body class="{% block bodyclass %}{% endblock bodyclass %}">
+    {% include 'management_sample/includes/loader.html' %}
+    <p></p>
+    <div class="wrapper">
+      {% block content %}
+      <p>{% endblock content %}</p>
+      <p>{% block sidebar %}</p>
+      <p>{% include 'management_sample/includes/sidebar.html' %}</p>
+      <p>{% endblock sidebar %}</p>
+      <p>{% block navbar %}</p>
+      <p>{% include 'management_sample/includes/navbar.html' %}</p>
+      <p>{% endblock navbar %}</p>
+      <p></p>
+    </div>
+
+    {% block footer %}
+    <p>{% include 'management_sample/includes/footer.html' %}</p>
+    <p>{% endblock footer %}</p>
+    <p>{% include 'management_sample/includes/scripts.html' %}</p>
+    <p></p>
+  </body>
+</html>

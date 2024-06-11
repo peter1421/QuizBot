@@ -1,0 +1,166 @@
+{% extends 'management_sample/layouts/base.html' %} <br />
+{% load static %} <br />
+{% block content %}
+<!-- Page Content  -->
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-lg-3">
+            <div class="iq-card">
+               <div class="iq-card-body">
+                  <div class="">
+                     <div class="iq-email-list">
+                        <a href="email-compose.html"
+                           class="btn btn-primary btn-lg btn-block mb-3 font-size-16 p-3"><i
+                              class="ri-send-plane-line mr-2"></i>New Message</a>
+                        <ul class="iq-email-ui">
+                           <li class="active"><a href="index.html"><i class="ri-mail-line"></i>Inbox<span
+                                    class="badge badge-primary ml-2">4</span></a></li>
+                           <li><a href="#"><i class="ri-star-line"></i>Starred</a></li>
+                           <li><a href="#"><i class="ri-time-line"></i>Snoozed</a></li>
+                           <li><a href="#"><i class="ri-file-list-2-line"></i>Draft</a></li>
+                           <li><a href="#"><i class="ri-mail-send-line"></i>Sent Mail</a></li>
+                           <li><a href="#"><i class="ri-delete-bin-line"></i>Trash</a></li>
+                           <li><a href="#"><i class="ri-bookmark-line"></i>Important</a></li>
+                           <li><a href="#"><i class="ri-spam-line"></i>Spam</a></li>
+                        </ul>
+                        <h6 class="mt-4">Labels</h6>
+                        <ul class="iq-email-ui">
+                           <li><a href="#"><i class="ri-focus-fill text-primary"></i>Personal</a></li>
+                           <li><a href="#"><i class="ri-focus-fill text-danger"></i>Company</a></li>
+                           <li><a href="#"><i class="ri-focus-fill text-success"></i>Important</a></li>
+                           <li><a href="#"><i class="ri-focus-fill text-info"></i>Private</a></li>
+                           <li><a href="#"><i class="ri-focus-fill text-warning"></i>Private</a></li>
+                           <li><a href="#"><i class="ri-add-circle-line"></i>Add New Labels</a></li>
+                        </ul>
+                        <div class="iq-progress-bar-linear d-inline-block w-100">
+                           <h6 class="mt-4">Storage</h6>
+                           <div class="iq-progress-bar">
+                              <span class="bg-danger" data-percent="90"></span>
+                           </div>
+                           <span class="mt-1 d-inline-block w-100">7.02 GB (46%) of 15 GB used</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-9">
+            <div class="iq-card">
+               <div class="iq-card-body p-0">
+                  <div class="">
+                     <div class="iq-email-to-list p-3">
+                        <div class="d-flex justify-content-between">
+                           <ul>
+                              <li class="mr-3">
+                                 <a href="index.html">
+                                    <h4 class="m-0"><i class="ri-arrow-left-line"></i></h4>
+                                 </a>
+
+                              </li>
+                              <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                    href="#"><i class="ri-mail-open-line"></i></a></li>
+                              <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                    href="#"><i class="ri-information-line"></i></a></li>
+                              <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                    href="#"><i class="ri-delete-bin-line"></i></a></li>
+                              <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                    href="#"><i class="ri-mail-unread-line"></i></a></li>
+                              <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                    href="#"><i class="ri-folder-transfer-line"></i></a></li>
+                              <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                    href="#"><i class="ri-bookmark-line"></i></a></li>
+                           </ul>
+                           <div class="iq-email-search d-flex">
+
+                              <ul>
+                                 <li class="mr-3">
+                                    <a class="font-size-14" href="#">1 of 505</a>
+
+                                 </li>
+                                 <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                       href="#"><i class="ri-arrow-left-s-line"></i></a></li>
+                                 <li data-toggle="tooltip" data-placement="top" title="Tooltip on top"><a
+                                       href="#"><i class="ri-arrow-right-s-line"></i></a></li>
+
+                              </ul>
+                           </div>
+                        </div>
+
+                     </div>
+                     <hr class="mt-0">
+                     <div class="iq-inbox-subject p-3">
+
+                        <h5 class="mt-0">Your elite author Graphic Optimization reward is ready!</h5>
+                        <div class="iq-inbox-subject-info">
+                           <div class="iq-subject-info">
+                              <img src="https://dummyimage.com/80x80/ddd/kkk" class="img-fluid rounded-circle"
+                                 alt="#">
+                              <div class="iq-subject-status align-self-center">
+                                 <h6 class="mb-0">Sofbox team <a href="dummy@sofbox.com">
+                                       <dummy@sofbox.com>
+                                    </a></h6>
+                                 <div class="dropdown">
+                                    <a class="dropdown-toggle" href="#" id="dropdownMenuButton"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       to Me
+                                    </a>
+                                    <div class="dropdown-menu font-size-12" aria-labelledby="dropdownMenuButton">
+                                       <table class="iq-inbox-details">
+                                          <tbody>
+                                             <tr>
+                                                <td>from:</td>
+                                                <td>Medium Daily Digest</td>
+                                             </tr>
+                                             <tr>
+                                                <td>reply-to:</td>
+                                                <td>noreply@gmail.com</td>
+                                             </tr>
+                                             <tr>
+                                                <td>to:</td>
+                                                <td>iqonicdesigns@gmail.com</td>
+                                             </tr>
+                                             <tr>
+                                                <td>date:</td>
+                                                <td>13 Dec 2019, 08:30</td>
+                                             </tr>
+                                             <tr>
+                                                <td>subject:</td>
+                                                <td>The Golden Rule</td>
+                                             </tr>
+                                             <tr>
+                                                <td>security:</td>
+                                                <td>Standard encryption</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                              <span class="float-right align-self-center">Jan 15, 2029, 10:20AM</span>
+
+                           </div>
+                           <div class="iq-inbox-body mt-5">
+                              <p>Hi Nik,</p>
+                              <p>It is a long established fact that a reader will be distracted by the readable
+                                 content of a page when looking at its layout. The point of using Lorem Ipsum is
+                                 that it has a more-or-less normal distribution of letters, as opposed to using
+                                 'Content here, content here', making it look like readable English. Many desktop
+                                 publishing packages and web page editors now use Lorem Ipsum as their default
+                                 model text, and a search for 'lorem ipsum' will uncover many web sites still in
+                                 their infancy. </p>
+                              <p>Various versions have evolved over the years, sometimes by accident, sometimes
+                                 on
+                                 purpose (injected humour and the like).</p>
+                              <p class="mt-5 mb-0">Regards,<span class="d-inline-block w-100">John Deo</span></p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,126 @@
+{% extends 'layouts/base.html' %} 
+{% load static  %} 
+{% block content %}
+<div id="content-page" class="content-page">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <section class="sign-in-page bg-white">
+          <div class="container-fluid p-0">
+            <div class="row no-gutters">
+              <div class="col-sm-6 align-self-center">
+                <div class="sign-in-from">
+                  <h1 class="mb-0">註冊</h1>
+                  <p>
+                    輸入您的電子郵件地址和密碼以訪問管理面板。
+                  </p>
+                  <form class="mt-4" method="post" action={% url 'client_account_register_index' %}>
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+                    <div class="form-group">
+                      {{ form.phone.label_tag }}
+                      {{ form.phone }}
+                      {{ form.phone.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password1.label_tag }}
+                        {{ form.password1 }}
+                        {{ form.password1.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password2.label_tag }}
+                        {{ form.password2 }}
+                        {{ form.password2.errors }}
+                    </div>
+                    <div class="d-inline-block w-100">
+                        <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">我接受 <a href="#">條款和條件</a></label>
+                        </div>
+                        <button type="submit" class="btn btn-primary float-right">註冊</button>
+                    </div>
+                    <div class="sign-info">
+                        <span class="dark-color d-inline-block line-height-2">已經有帳戶了？ <a href="#">登入</a></span>
+                        <ul class="iq-social-media">
+                            <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
+                            <li><a href="#"><i class="ri-twitter-line"></i></a></li>
+                            <li><a href="#"><i class="ri-instagram-line"></i></a></li>
+                        </ul>
+                    </div>
+                </form>
+                </div>
+              </div>
+              <div class="col-sm-6 text-center">
+                <div
+                  class="sign-in-detail text-white"
+                  style="
+                    background: url("{%static 'images/login/2.jpg'%}")
+                      no-repeat 0 0;
+                    background-size: cover;
+                  "
+                >
+                  <a class="sign-in-logo mb-5" href="#"
+                    ><img src="{%static 'images/logo-white.png'%}" class="img-fluid" alt="logo"
+                  /></a>
+                  <div
+                    class="owl-carousel"
+                    data-autoplay="true"
+                    data-loop="true"
+                    data-nav="false"
+                    data-dots="true"
+                    data-items="1"
+                    data-items-laptop="1"
+                    data-items-tab="1"
+                    data-items-mobile="1"
+                    data-items-mobile-sm="1"
+                    data-margin="0"
+                  >
+                    <div class="item">
+                      <img
+                        src="{% static 'images/login/1.png' %}"
+                        class="img-fluid mb-4"
+                        alt="logo"
+                      />
+                      <h4 class="mb-1 text-white">管理您的訂單</h4>
+                      <p>
+                        這是一個長期以來的事實，即讀者將因為可讀內容而分心。
+                      </p>
+                    </div>
+                    <div class="item">
+                      <img
+                        src="{% static 'images/login/1.png' %}"
+                        class="img-fluid mb-4"
+                        alt="logo"
+                      />
+                      <h4 class="mb-1 text-white">管理您的訂單</h4>
+                      <p>
+                        這是一個長期以來的事實，即讀者將因為可讀內容而分心。
+                      </p>
+                    </div>
+                    <div class="item">
+                      <img
+                        src="{% static 'images/login/1.png' %}"
+                        class="img-fluid mb-4"
+                        alt="logo"
+                      />
+                      <h4 class="mb-1 text-white">管理您的訂單</h4>
+                      <p>
+                        這是一個長期以來的事實，即讀者將因為可讀內容而分心。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

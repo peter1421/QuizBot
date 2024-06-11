@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-hant">
+  <head>
+    {% include 'includes/head.html' %} {% comment %} {% block extrahead %}{%
+    endblock extrahead %} {% block extrastyle %}{% endblock extrastyle %} {%
+    endcomment %} {% comment %} {% block extrahead %}{% endblock extrahead %} {%
+    block extrastyle %}{% endblock extrastyle %} {% endcomment %}
+  </head>
+
+  <body class="{% block bodyclass %}{% endblock bodyclass %}">
+    {% comment %} {% include 'includes/loader.html' %} {% endcomment %}
+    <div class="wrapper">
+      {% block content %}
+      {% endblock content %}
+      {% include 'includes/message.html' %}
+      {% block sidebar %}
+      {% include 'includes/sidebar.html' %}
+      {% endblock sidebar %}
+      {% block navbar %}
+      {% include 'includes/navbar.html' %}
+      {% endblock navbar %}
+    </div>
+    {% comment %} {% block footer %}
+    <p>{% include 'includes/footer.html' %}</p>
+    <p>{% endblock footer %}</p>
+    {% endcomment %}
+    <p>{% include 'includes/scripts.html' %}</p>
+  </body>
+</html>

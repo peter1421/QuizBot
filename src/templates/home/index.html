@@ -1,0 +1,134 @@
+{% extends 'layouts/base.html' %} <br />
+{% load static %} <br />
+{% block content %}
+<!-- Page Content  -->
+<div id="content-page" class="content-page">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6">
+        <div class="iq-card">
+          <div class="iq-card-header d-flex justify-content-between">
+            <div class="iq-header-title">
+              <h4 class="card-title" _msttexthash="12115519" _msthash="70">
+                管理端-快速連結
+              </h4>
+            </div>
+          </div>
+          {% comment %} {% if request.session.is_login %}
+          <h3>你好, {{ request.session.username }},这是首页的模拟界面</h3>
+          <a href="{% url 'logout' %}"
+            ><strong style="font-size: 20px">登出</strong></a
+          >
+          {% else %}
+          <p>您尚未登入喔~<a href="{% url 'login' %}">登入</a></p>
+          {% endif %} {% endcomment %}
+
+          <div class="iq-card-body">
+            <div class="list-group">
+              {% if user.is_authenticated %}
+              <a class="list-group-item list-group-item-action"
+                >歡迎, {{ user.username }} | 手機號碼: {{ user.phone }}</a
+              >
+
+              <a
+                class="list-group-item list-group-item-action"
+                href="{% url 'register' %}"
+                >新增帳號</a
+              >
+              <a
+                class="list-group-item list-group-item-action"
+                href="{% url 'logout' %}"
+                >登出</a
+              >
+              <a
+                href="https://portal.azure.com/#home"
+                class="list-group-item list-group-item-action list-group-item-primary"
+                _msttexthash="31277818"
+                _msthash="73"
+                >主機設置</a
+              >
+              <a
+                href="#"
+                onclick="clearCookies()"
+                class="list-group-item list-group-item-action list-group-item-primary"
+                _msttexthash="31277818"
+                _msthash="73"
+                >清除cookie</a
+              >
+              <a
+                href="{% url 'download_db' %}"
+                class="list-group-item list-group-item-action list-group-item-secondary"
+                >下載資料庫</a
+              >
+              <a
+                href="{% url 'download_request_log' %}"
+                class="list-group-item list-group-item-action list-group-item-secondary"
+                >下載請求紀錄</a
+              >
+              <a
+                href="{% url 'management_sample' %}"
+                class="list-group-item list-group-item-action list-group-item-secondary"
+                _msttexthash="38036063"
+                _msthash="74"
+                >樣本連結</a
+              >
+              {% else %}
+              <a
+                class="list-group-item list-group-item-action"
+                href="{% url 'login' %}"
+                >登入</a
+              >
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="iq-card">
+          <div class="iq-card-header d-flex justify-content-between">
+            <div class="iq-header-title">
+              <h4 class="card-title">
+                <a href="{% url 'client_home_index' %}"> 客戶端-快速連結 </a>
+              </h4>
+            </div>
+          </div>
+          {% comment %} {% if request.session.is_login %}
+          <h3>你好, {{ request.session.username }},这是首页的模拟界面</h3>
+          <a href="{% url 'logout' %}"
+            ><strong style="font-size: 20px">登出</strong></a
+          >
+          {% else %}
+          <p>您尚未登入喔~<a href="{% url 'login' %}">登入</a></p>
+          {% endif %} {% endcomment %}
+
+          <div class="iq-card-body">
+            <div class="list-group">
+              {% if user.is_authenticated %}
+              <a class="list-group-item list-group-item-action"
+                >歡迎, {{ user.username }} | 手機號碼: {{ user.phone }}</a
+              >
+              <a
+                class="list-group-item list-group-item-action"
+                href="{% url 'logout' %}"
+                >登出</a
+              >
+              {% else %}
+              <a
+                class="list-group-item list-group-item-action"
+                href="{% url 'login' %}"
+                >登入</a
+              >
+              <a
+                class="list-group-item list-group-item-action"
+                href="{% url 'client_account_register_index' %}"
+                >客戶端註冊</a
+              >
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
