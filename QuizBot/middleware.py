@@ -108,7 +108,7 @@ def admin_required(view_func):
         if request.user.is_authenticated and request.user.is_admin:
             return view_func(request, *args, **kwargs)
         else:
-            message = f"{request.user.tml_name}您沒有權限執行此操作，請聯絡管理員"
+            message = f"您沒有權限執行此操作，請聯絡管理員"
             messages.error(request, message)
             # 'home' 是你的首頁的URL名稱
             return HttpResponseRedirect(reverse("client_home_index"))
