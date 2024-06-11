@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -26,13 +25,17 @@ class Migration(migrations.Migration):
                 (
                     "last_login",
                     models.DateTimeField(
-                        blank=True, null=True, verbose_name="last login"
+                        blank=True,
+                        null=True,
+                        verbose_name="last login",
                     ),
                 ),
                 (
                     "email",
                     models.EmailField(
-                        max_length=255, unique=True, verbose_name="電子郵件地址"
+                        max_length=255,
+                        unique=True,
+                        verbose_name="電子郵件地址",
                     ),
                 ),
                 ("phone", models.CharField(max_length=255, unique=True)),

@@ -1,3 +1,34 @@
+[tool.poetry]
+name = "QuizBot_django"
+version = "0.1.0"
+description = ""
+authors = ["林子白 <abcde12345326@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.1.6"
+black = "^23.11.0"
+pyright = "^1.1.337"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+
+[tool.isort]
+profile = "black"
+skip = ["env"]
+
 [tool.ruff]
 line-length = 120
 target-version = "py39"
@@ -59,35 +90,4 @@ ignore = [
   # pydocstyle: Allow blank line after docstring
   "D202",
 ]
-
-
-[tool.ruff.flake8-tidy-imports]
-ban-relative-imports = "all"
-
-[tool.ruff.pydocstyle]
-convention = "google"
-
-[tool.poetry]
-name = "QuizBot_django"
-version = "0.1.0"
-description = ""
-authors = ["林子白 <abcde12345326@gmail.com>"]
-readme = "README.md"
-pythonVersion = "3.9"
-typeCheckingMode = "basic"
-reportUnnecessaryTypeIgnoreComment = true
-max-line-length = 160
-
-[tool.poetry.dependencies]
-python = "^3.9"
-
-
-[tool.poetry.group.lint.dependencies]
-ruff = "^0.1.6"
-black = "^23.11.0"
-pyright = "^1.1.337"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
+exclude = ["env"]

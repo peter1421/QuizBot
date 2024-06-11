@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "apps.management_sample",
-
-
     "apps.home.apps.HomeConfig",
     "client.home.apps.ClientHomeConfig",
     "apps.accounts.apps.AccountConfig",
@@ -63,7 +61,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "QuizBot.middleware.LogRequestMiddleware",  # 替换为您的中间件路径
-
 ]
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
@@ -160,7 +157,7 @@ AUTH_USER_MODEL = "accounts.SiteUser"
 LOGIN_URL = "/accounts/login/"
 
 # CSRF_TRUSTED_ORIGINS = ["https://*", "http://*"]
-CSRF_TRUSTED_ORIGINS = ['https://*.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ["https://*.azurewebsites.net"]
 
 X_FRAME_OPTIONS = "ALLOW-FROM uri"
 

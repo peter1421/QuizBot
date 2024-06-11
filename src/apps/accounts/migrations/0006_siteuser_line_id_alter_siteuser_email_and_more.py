@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0005_auto_20240428_1221"),
     ]
@@ -19,14 +18,19 @@ class Migration(migrations.Migration):
             model_name="siteuser",
             name="email",
             field=models.EmailField(
-                max_length=255, null=True, verbose_name="電子郵件地址"
+                max_length=255,
+                null=True,
+                verbose_name="電子郵件地址",
             ),
         ),
         migrations.AlterField(
             model_name="siteuser",
             name="id",
             field=models.BigAutoField(
-                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                auto_created=True,
+                primary_key=True,
+                serialize=False,
+                verbose_name="ID",
             ),
         ),
     ]

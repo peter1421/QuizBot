@@ -1,11 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+
 from QuizBot.middleware import admin_required  # Django的内置登录装饰器
 
-from .forms import (
-    SiteUserCreationForm,  # 确保这里导入的是您的自定义表单类
-)
+from .forms import SiteUserCreationForm  # 确保这里导入的是您的自定义表单类
 from .models import SiteUser
 
 
@@ -46,8 +45,7 @@ def login_view(request):
 
         # 如果找到用户，使用authenticate进行密码验证
         if user:
-            user = authenticate(
-                request, username=user.phone, password=password)
+            user = authenticate(request, username=user.phone, password=password)
 
         if user is not None:
             login(request, user)

@@ -31,19 +31,14 @@ def redirect_to_musics(request):
     return redirect("/home/")  # 重定向
 
 
-
-
 urlpatterns = [
     path("", redirect_to_musics),  # 當訪問根 URL 時，執行重定向
-
     # path("admin/", admin.site.urls),
     # path('callback', views.callback),
     path("home/", include("apps.home.urls")),
     path("accounts/", include("apps.accounts.urls")),
     path("management_sample/", include("apps.management_sample.urls")),
-
     # client
     path("client/home/", include("client.home.urls")),
     path("client/account/", include("client.account.urls")),
-
 ]

@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
 
+
 def login_user(request, phone, password, success_url):
     user = authenticate(request, username=phone, password=password)
     if user:

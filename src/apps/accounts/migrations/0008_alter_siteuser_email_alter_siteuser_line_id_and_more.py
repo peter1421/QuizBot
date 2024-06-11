@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0007_alter_siteuser_line_id"),
     ]
@@ -30,21 +29,29 @@ class Migration(migrations.Migration):
             model_name="siteuser",
             name="phone",
             field=models.CharField(
-                max_length=255, unique=True, verbose_name="手機號碼"
+                max_length=255,
+                unique=True,
+                verbose_name="手機號碼",
             ),
         ),
         migrations.AlterField(
             model_name="siteuser",
             name="tml_house_id",
             field=models.IntegerField(
-                blank=True, default=0, null=True, verbose_name="家庭編號"
+                blank=True,
+                default=0,
+                null=True,
+                verbose_name="家庭編號",
             ),
         ),
         migrations.AlterField(
             model_name="siteuser",
             name="username",
             field=models.CharField(
-                blank=True, max_length=254, null=True, verbose_name="使用者名稱"
+                blank=True,
+                max_length=254,
+                null=True,
+                verbose_name="使用者名稱",
             ),
         ),
     ]

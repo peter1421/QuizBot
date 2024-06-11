@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0008_alter_siteuser_email_alter_siteuser_line_id_and_more"),
     ]
@@ -14,7 +13,10 @@ class Migration(migrations.Migration):
             model_name="siteuser",
             name="tml_person_id",
             field=models.IntegerField(
-                blank=True, default=0, null=True, verbose_name="個人編號"
+                blank=True,
+                default=0,
+                null=True,
+                verbose_name="個人編號",
             ),
         ),
     ]

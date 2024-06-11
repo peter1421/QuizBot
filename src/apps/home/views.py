@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required  # Django的内置登录装饰器
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
+
 from QuizBot.middleware import admin_required
 
 
@@ -21,10 +22,10 @@ def download_db(request):
     filepath = os.path.join(settings.BASE_DIR, "database.sqlite3")
     if os.path.exists(filepath):
         with open(filepath, "rb") as fh:
-            response = HttpResponse(
-                fh.read(), content_type="application/x-sqlite3")
-            response["Content-Disposition"] = "inline; filename=" + \
-                os.path.basename(filepath)
+            response = HttpResponse(fh.read(), content_type="application/x-sqlite3")
+            response["Content-Disposition"] = "inline; filename=" + os.path.basename(
+                filepath,
+            )
             return response
     raise Http404
 

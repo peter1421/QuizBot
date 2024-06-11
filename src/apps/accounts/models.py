@@ -2,6 +2,7 @@ import random
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+
 from QuizBot.middleware import debug_info
 
 
@@ -57,8 +58,7 @@ class SiteUserManager(BaseUserManager):
     def generate_unique_phone(self):
         while True:
             # 生成一個以 '10' 開頭的假電話號碼
-            new_phone = "10" + \
-                "".join([str(random.randint(0, 9)) for _ in range(8)])
+            new_phone = "10" + "".join([str(random.randint(0, 9)) for _ in range(8)])
             # 檢查生成的號碼是否已存在於資料庫中
             if not self.model.objects.filter(phone=new_phone).exists():
                 return new_phone
@@ -79,15 +79,19 @@ class SiteUser(AbstractBaseUser):
     phone = models.CharField(verbose_name="手機號碼", max_length=255, unique=True)
     email = models.EmailField(verbose_name="電子郵件", max_length=255, null=True)
     username = models.CharField(
-        verbose_name="使用者名稱", max_length=254, blank=True, null=True)
+        verbose_name="使用者名稱", max_length=254, blank=True, null=True,
+    )
     is_active = models.BooleanField(default=True)  # 是否為活躍用戶
     is_admin = models.BooleanField(default=False)  # 是否為管理員
     tml_house_id = models.IntegerField(
-        verbose_name="家庭編號", null=True, blank=True, default=0)
+        verbose_name="家庭編號", null=True, blank=True, default=0,
+    )
     tml_person_id = models.IntegerField(
-        verbose_name="個人編號", null=True, blank=True, default=0)
+        verbose_name="個人編號", null=True, blank=True, default=0,
+    )
     line_id = models.CharField(
-        verbose_name="Line ID", max_length=254, unique=True, blank=True, null=True)
+        verbose_name="Line ID", max_length=254, unique=True, blank=True, null=True,
+    )
 
     objects = SiteUserManager()
 

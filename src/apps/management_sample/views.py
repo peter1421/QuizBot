@@ -1,9 +1,6 @@
-from django.contrib.auth import login
-from django.contrib.auth.hashers import check_password
 from django.http import HttpResponse  # 1
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.template import loader
-from django.urls import reverse
 
 # from myTool.funTool import log_activity
 

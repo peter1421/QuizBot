@@ -11,6 +11,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
+
 from QuizBot.service import LineService
 from QuizBot.utils import handle_error
 
@@ -39,11 +40,9 @@ def register_index(request):
 
 def line_login(request):
     client_id = settings.LINE_LOGIN_CHANNEL_ID
-    redirect_uri = urllib.parse.quote(
-        settings.LINE_LOGIN_CALLBACK_URL, safe="")
+    redirect_uri = urllib.parse.quote(settings.LINE_LOGIN_CALLBACK_URL, safe="")
     scope = urllib.parse.quote("profile openid email", safe="")
-    auth_url, state = LineService.build_auth_url(
-        client_id, redirect_uri, scope)
+    auth_url, state = LineService.build_auth_url(client_id, redirect_uri, scope)
     return HttpResponseRedirect(auth_url)
 
 
@@ -51,7 +50,11 @@ def line_callback(request):
     """LINE 登錄的回調處理函數。"""
     code = request.GET.get("code")
     token_data = LineService.exchange_token(
-        code, settings.LINE_LOGIN_CALLBACK_URL, settings.LINE_LOGIN_CHANNEL_ID, settings.LINE_LOGIN_CHANNEL_SECRET)
+        code,
+        settings.LINE_LOGIN_CALLBACK_URL,
+        settings.LINE_LOGIN_CHANNEL_ID,
+        settings.LINE_LOGIN_CHANNEL_SECRET,
+    )
 
     if token_data:
         return process_line_login(request, token_data)
@@ -63,7 +66,8 @@ def line_callback(request):
 def process_line_login(request, token_data):
     """處理從 LINE 獲取的 token 和用戶數據。"""
     user_data = LineService.verify_id_token(
-        token_data.get("id_token"), settings.LINE_LOGIN_CHANNEL_ID)
+        token_data.get("id_token"), settings.LINE_LOGIN_CHANNEL_ID,
+    )
     error_url = "/error"
     if not user_data:
         return handle_error(request, "ID token 驗證失敗", error_url)

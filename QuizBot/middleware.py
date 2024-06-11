@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.utils.encoding import force_str
+
 from QuizBot.utils import get_client_ip
 
 
@@ -19,7 +20,10 @@ def convert_to_unicode(obj):
     elif isinstance(obj, list):
         return [convert_to_unicode(item) for item in obj]
     elif isinstance(obj, dict):
-        return {convert_to_unicode(key): convert_to_unicode(value) for key, value in obj.items()}
+        return {
+            convert_to_unicode(key): convert_to_unicode(value)
+            for key, value in obj.items()
+        }
     else:
         return obj
 
@@ -42,15 +46,17 @@ class LogRequestMiddleware:
                 request_data = dict(request.POST)
                 request_data_unicode = convert_to_unicode(request_data)
                 self.logger.info("Request Data:")
-                self.logger.info(json.dumps(
-                    request_data_unicode, indent=2, ensure_ascii=False))
+                self.logger.info(
+                    json.dumps(request_data_unicode, indent=2, ensure_ascii=False),
+                )
             elif request.method == "PUT":
                 request_body = request.body.decode("utf-8")
                 request_data = json.loads(request_body)
                 request_data_unicode = convert_to_unicode(request_data)
                 self.logger.info("Request Data:")
-                self.logger.info(json.dumps(
-                    request_data_unicode, indent=2, ensure_ascii=False))
+                self.logger.info(
+                    json.dumps(request_data_unicode, indent=2, ensure_ascii=False),
+                )
         except Exception as e:
             self.logger.error(f"Error decoding request body: {e}")
         return response
@@ -62,16 +68,21 @@ def handle_exceptions(view_func):
         try:
             return view_func(request, *args, **kwargs)
         except (KeyError, ValueError):
-            return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+            return JsonResponse(
+                {"status": "error", "message": "Invalid request"}, status=400,
+            )
         except ObjectDoesNotExist:
-            return JsonResponse({"status": "error", "message": "Entry not found"}, status=404)
+            return JsonResponse(
+                {"status": "error", "message": "Entry not found"}, status=404,
+            )
+
     return wrapper
 
 
 def debug_info(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        arg_names = func.__code__.co_varnames[:func.__code__.co_argcount]
+        arg_names = func.__code__.co_varnames[: func.__code__.co_argcount]
         args_dict = dict(zip(arg_names, args))
         args_dict.update(kwargs)
         args_str = ", ".join(f"\n{k}: {v!r}" for k, v in args_dict.items())
@@ -101,6 +112,7 @@ def admin_required(view_func):
             messages.error(request, message)
             # 'home' 是你的首頁的URL名稱
             return HttpResponseRedirect(reverse("client_home_index"))
+
     return _wrapped_view
 
 

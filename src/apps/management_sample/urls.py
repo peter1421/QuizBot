@@ -1,7 +1,5 @@
-from django.urls import path, re_path
-
 from apps.management_sample import views
-
+from django.urls import path, re_path
 
 html_files = [
     "account-setting.html",

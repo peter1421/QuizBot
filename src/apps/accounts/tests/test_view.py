@@ -15,7 +15,7 @@
 #             "password2": "strong_password",
 #             "username": "testuser"
 #         }
-#         # 發送 POST 請求到註冊視圖        
+#         # 發送 POST 請求到註冊視圖
 #         response = client.post(reverse('register'), user_data)
 
 #         # 如果表單無效，打印錯誤信息
@@ -25,5 +25,5 @@
 #                 print(form.errors)
 
 #         # 檢查用戶是否已經被創建
-#         user_model = get_user_model()     
+#         user_model = get_user_model()
 #         assert user_model.objects.filter(email="test@example.com").exists()

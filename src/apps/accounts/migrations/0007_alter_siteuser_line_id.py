@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("accounts", "0006_siteuser_line_id_alter_siteuser_email_and_more"),
     ]
