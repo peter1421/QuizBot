@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "apps.chapter.admin.apps.AdminChapterConfig",
     "apps.chapter.client.apps.ClientChapterConfig",
 
+    "apps.chatbot.apps.ChatbotConfig",
     "apps.chatbot.client.apps.ClientChatbotConfig",
 ]
 

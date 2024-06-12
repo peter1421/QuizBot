@@ -8,13 +8,13 @@
 <div
   aria-live="polite"
   aria-atomic="true"
-  style="position: fixed; bottom: 0; right: 0; min-height: 100px; max-width: 300px;">
+  style="position: fixed; bottom: 10px; right: 20px; min-height: 100px; max-width: 300px;">
   <!-- Position it -->
   <div>
     <!-- Then put toasts within -->
     {% for message in messages %}
     <div
-      class="toast fade show"
+      class="toast fade show bg-primary text-white border-0 rounded p-2"
       role="alert"
       aria-live="assertive"
       aria-atomic="true"

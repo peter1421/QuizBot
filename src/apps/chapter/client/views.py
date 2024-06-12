@@ -2,6 +2,7 @@
 
 
 from django.shortcuts import render
+from django.contrib import messages
 
 from apps.chapter.models import Chapter
 
@@ -21,6 +22,7 @@ def index(request):
     content = {
         'chapters': chapters  # Add chapters to the context dictionary
     }
+    messages.success(request, "測試")
     return render(
         request,
         "client/chapter/index.html",
