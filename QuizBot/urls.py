@@ -42,4 +42,8 @@ urlpatterns = [
     path("client/home/", include("apps.home.client.urls")),
     path("client/account/", include("apps.accounts.client.urls")),
     path("client/chatbot/", include("apps.chatbot.client.urls")),
+
+    path("client/chapter/", include("apps.chapter.client.urls")),
+    path("admin/chapter/", include("apps.chapter.admin.urls")),
+
 ]
