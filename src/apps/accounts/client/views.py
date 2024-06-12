@@ -2,9 +2,9 @@
 
 import urllib
 
+from apps.accounts.client.bankend import login_user
 from apps.accounts.forms import SiteUserCreationForm, SiteUserForm
 from apps.accounts.models import SiteUser
-from client.account.bankend import login_user
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login

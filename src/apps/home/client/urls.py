@@ -1,6 +1,6 @@
 # urls.py
 
-from client.home.views import index
+from apps.home.client.views import index
 from django.urls import path
 
 urlpatterns = [

@@ -46,9 +46,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "apps.management_sample",
     "apps.home.apps.HomeConfig",
-    "client.home.apps.ClientHomeConfig",
+    # "apps.home.client.apps.ClientHomeConfig",
     "apps.accounts.apps.AccountConfig",
-    "client.account.apps.ClientAccountConfig",
+    "apps.accounts.client.apps.ClientAccountConfig",
+
+    "apps.chatbot.client.apps.ClientChatbotConfig",
 ]
 
 MIDDLEWARE = [

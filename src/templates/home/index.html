@@ -71,7 +71,7 @@
                 class="list-group-item list-group-item-action list-group-item-secondary"
                 _msttexthash="38036063"
                 _msthash="74"
-                >樣本連結</a
+                >樣本連結!!!!</a
               >
               {% else %}
               <a
@@ -107,6 +107,11 @@
               {% if user.is_authenticated %}
               <a class="list-group-item list-group-item-action"
                 >歡迎, {{ user.username }} | 手機號碼: {{ user.phone }}</a
+              >
+              <a
+                class="list-group-item list-group-item-action"
+                href="{% url 'client_chatbot_index' %}"
+                >聊天機器人</a
               >
               <a
                 class="list-group-item list-group-item-action"

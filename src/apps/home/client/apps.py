@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class ClientHomeConfig(AppConfig):
-    name = "client.home"
+    name = "apps.home.client"
     label = "client_home"  # 唯一標籤
