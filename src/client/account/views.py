@@ -7,7 +7,7 @@ from apps.accounts.models import SiteUser
 from client.account.bankend import login_user
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -37,6 +37,34 @@ def register_index(request):
     context = {"form": form}
     return render(request, "client/account/register/index.html", context)
 
+# 登录视图
+def login_index(request):
+    if request.method == "POST":
+        username = request.POST.get("username")  # 用户可以输入电子邮件或手机号码
+        password = request.POST.get("password")
+        user = None
+
+        # 检查输入是否为电子邮件格式
+        if "@" in username:
+            try:
+                user = SiteUser.objects.get(email=username)  # 通过电子邮件查找用户
+            except SiteUser.DoesNotExist:
+                pass
+        else:
+            try:
+                user = SiteUser.objects.get(phone=username)  # 通过手机号码查找用户
+            except SiteUser.DoesNotExist:
+                pass
+
+        # 如果找到用户，使用authenticate进行密码验证
+        if user:
+            user = authenticate(request, username=user.phone, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("/home/")  # 重定向
+
+    return render(request, "client/account/login/index.html")
 
 def line_login(request):
     client_id = settings.LINE_LOGIN_CHANNEL_ID
