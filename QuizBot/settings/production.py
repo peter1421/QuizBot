@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     "apps.chatbot.apps.ChatbotConfig",
     "apps.chatbot.client.apps.ClientChatbotConfig",
 ]
-
+print("BASE_DIR:", BASE_DIR)
+print("INSTALLED_APPS:", INSTALLED_APPS)
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -228,4 +229,11 @@ CHATBOT_CONFIGS = {
         "ASSISTANT_ID": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
     }
 }
-API_KEY=os.environ.get('CHATGPT_API_KEY')
+
+try:
+    API_KEY = os.environ.get('CHATGPT_API_KEY')
+    if API_KEY is None:
+        raise ValueError("CHATGPT_API_KEY is not set in the environment variables.")
+except Exception as e:
+    print(e)
+    API_KEY = ""
