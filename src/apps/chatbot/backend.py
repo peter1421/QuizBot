@@ -1,6 +1,7 @@
 from openai import OpenAI
 
-from QuizBot import settings
+from django.conf import settings
+
 
 
 def get_threads_id(chapter):
