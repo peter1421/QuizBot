@@ -31,3 +31,5 @@ class Chapter(models.Model):
     # updated_at = models.DateTimeField(auto_now=True)
 
     objects = ChapterManager()
+    def __str__(self):
+        return self.title

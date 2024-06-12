@@ -98,7 +98,7 @@ class SiteUser(AbstractBaseUser):
     USERNAME_FIELD = "phone"
 
     def __str__(self):
-        return self.email
+        return self.phone
 
     def has_perm(self, perm, obj=None):
         return True

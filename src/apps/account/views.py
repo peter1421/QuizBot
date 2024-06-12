@@ -21,7 +21,7 @@ def register_view(request):
             print(form.errors)  # 打印表单验证错误
     else:
         form = SiteUserCreationForm()
-    return render(request, "accounts/register.html", {"form": form})
+    return render(request, "account/register.html", {"form": form})
 
 
 # 登录视图
@@ -45,20 +45,21 @@ def login_view(request):
 
         # 如果找到用户，使用authenticate进行密码验证
         if user:
-            user = authenticate(request, username=user.phone, password=password)
+            user = authenticate(
+                request, username=user.phone, password=password)
 
         if user is not None:
             login(request, user)
             return redirect("/home/")  # 重定向
         else:
             # 登录失败的错误处理
-            return render(request, "accounts/login.html", {"error": "無效的登錄憑證"})
+            return render(request, "account/login.html", {"error": "無效的登錄憑證"})
 
-    return render(request, "accounts/login.html")
+    return render(request, "account/login.html")
 
 
 def logout_view(request):
     # 调用 logout 函数，它会处理登出逻辑
     logout(request)
     # 登出后，重定向用户到登录页面或主页
-    return redirect("/accounts/login")  # 确保 'login' 是您的登录视图的 URL 名称
+    return redirect("/account/login")  # 确保 'login' 是您的登录视图的 URL 名称

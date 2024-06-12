@@ -14,7 +14,6 @@ import os
 import sys
 from pathlib import Path
 
-from .config import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -229,4 +228,4 @@ CHATBOT_CONFIGS = {
         "ASSISTANT_ID": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
     }
 }
-API_KEY=API_KEY
+API_KEY=os.environ.get('CHATGPT_API_KEY')

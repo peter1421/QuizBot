@@ -2,9 +2,9 @@
 
 import urllib
 
-from apps.accounts.client.bankend import login_user
-from apps.accounts.forms import SiteUserCreationForm, SiteUserForm
-from apps.accounts.models import SiteUser
+from apps.account.client.bankend import login_user
+from apps.account.forms import SiteUserCreationForm, SiteUserForm
+from apps.account.models import SiteUser
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -38,6 +38,8 @@ def register_index(request):
     return render(request, "client/account/register/index.html", context)
 
 # 登录视图
+
+
 def login_index(request):
     if request.method == "POST":
         username = request.POST.get("username")  # 用户可以输入电子邮件或手机号码
@@ -58,7 +60,8 @@ def login_index(request):
 
         # 如果找到用户，使用authenticate进行密码验证
         if user:
-            user = authenticate(request, username=user.phone, password=password)
+            user = authenticate(
+                request, username=user.phone, password=password)
 
         if user is not None:
             login(request, user)
@@ -66,11 +69,14 @@ def login_index(request):
 
     return render(request, "client/account/login/index.html")
 
+
 def line_login(request):
     client_id = settings.LINE_LOGIN_CHANNEL_ID
-    redirect_uri = urllib.parse.quote(settings.LINE_LOGIN_CALLBACK_URL, safe="")
+    redirect_uri = urllib.parse.quote(
+        settings.LINE_LOGIN_CALLBACK_URL, safe="")
     scope = urllib.parse.quote("profile openid email", safe="")
-    auth_url, state = LineService.build_auth_url(client_id, redirect_uri, scope)
+    auth_url, state = LineService.build_auth_url(
+        client_id, redirect_uri, scope)
     return HttpResponseRedirect(auth_url)
 
 

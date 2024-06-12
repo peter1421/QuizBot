@@ -36,11 +36,11 @@ urlpatterns = [
     path("admin/", admin.site.urls, name="admin"),
     # path('callback', views.callback),
     path("home/", include("apps.home.urls")),
-    path("accounts/", include("apps.accounts.urls")),
+    path("account/", include("apps.account.urls")),
     path("management_sample/", include("apps.management_sample.urls")),
     # client
     path("client/home/", include("apps.home.client.urls")),
-    path("client/account/", include("apps.accounts.client.urls")),
+    path("client/account/", include("apps.account.client.urls")),
     path("client/chatbot/", include("apps.chatbot.client.urls")),
 
     path("client/chapter/", include("apps.chapter.client.urls")),
