@@ -1,7 +1,4 @@
-{% extends 'layouts/base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'layouts/base.html' %} {% load static %} {% block content %}
 <div class="content-page">
   <div class="container-fluid">
     <!-- Page Content -->
@@ -10,12 +7,51 @@
       <div class="col-lg-4 col-md-6">
         <div class="card card-block card-stretch card-height">
           <div class="card-body">
-            
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <div
+                id="circle-progress-{{chapter.number}}"
+                class="circle-progress-01 circle-progress circle-progress-primary"
+                data-min-value="0"
+                data-max-value="100"
+                data-value="{{chapter.number}}"
+                data-type="percent"
+              ></div>
+              <i class="ri-star-fill m-0 text-warning"></i>
+            </div>
             <h5 class="card-title">{{ chapter.title }}</h5>
             <p class="card-text">{{ chapter.content|truncatewords:30 }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="badge badge-secondary">Chapter {{ chapter.number }}</span>
-              <a href="#" class="btn btn-primary">More Details</a>
+            <div
+              class="d-flex align-items-center justify-content-between pt-3 border-top"
+            >
+              <div class="iq-media-group">
+                <a href="#" class="iq-media">
+                  <img
+                    class="img-fluid avatar-40 rounded-circle"
+                    src="/static/assets/images/user/01.jpg"
+                    alt=""
+                  />
+                </a>
+                <a href="#" class="iq-media">
+                  <img
+                    class="img-fluid avatar-40 rounded-circle"
+                    src="/static/assets/images/user/02.jpg"
+                    alt=""
+                  />
+                </a>
+                <a href="#" class="iq-media">
+                  <img
+                    class="img-fluid avatar-40 rounded-circle"
+                    src="/static/assets/images/user/03.jpg"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <a
+                class="btn btn-white text-warning link-shadow"
+                _msttexthash="1847482"
+                _msthash="18"
+                >聊天</a
+              >
             </div>
           </div>
         </div>
