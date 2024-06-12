@@ -22,11 +22,12 @@ class ChapterManager(models.Manager):
         chapter = self.get(id=id)
         chapter.delete()
 
+
 class Chapter(models.Model):
     number = models.IntegerField()
     title = models.CharField(max_length=100)
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
 
     objects = ChapterManager()

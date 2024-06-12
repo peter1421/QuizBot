@@ -38,7 +38,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    # "django.contrib.admin",
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -50,8 +50,10 @@ INSTALLED_APPS = [
     "apps.accounts.apps.AccountConfig",
     "apps.accounts.client.apps.ClientAccountConfig",
 
+    "apps.chapter.apps.ChapterConfig",
     "apps.chapter.admin.apps.AdminChapterConfig",
     "apps.chapter.client.apps.ClientChapterConfig",
+
     "apps.chatbot.client.apps.ClientChatbotConfig",
 ]
 
