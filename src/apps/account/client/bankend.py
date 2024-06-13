@@ -4,8 +4,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 
 
-def login_user(request, phone, password, success_url):
-    user = authenticate(request, username=phone, password=password)
+def login_user(request, username, password, success_url):
+    user = authenticate(request, username=username, password=password)
     if user:
         login(request, user)
         messages.success(request, "登入成功")

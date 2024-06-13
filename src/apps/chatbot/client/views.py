@@ -20,7 +20,7 @@ def index(request, chapter_id=None):
     chatbot = None
     if chapter is not None:
         chatbot = Chatbot.objects.get_or_create_by_account_and_chapter(user, chapter)
-        messages.success(request, chatbot)
+        # messages.success(request, chatbot)
 
     context = {
         "chatbot": chatbot,

@@ -15,12 +15,12 @@
               <div class="col-sm-6 align-self-center">
                 <div class="sign-in-from">
                   <h1 class="mb-0">登入</h1>
-                  <p>輸入手機號碼和密碼以訪問管理面板。</p>
+                  <p>輸入帳號和密碼以訪問管理面板。</p>
                   <form class="mt-4" method="post">
                     {% csrf_token %}
                     <!-- 跨站請求偽造保護 -->
                     <div class="form-group">
-                      <label for="exampleInputEmail1">手機號碼</label>
+                      <label for="exampleInputEmail1">帳號</label>
                       <input
                         name="username"
                         class="form-control mb-0"

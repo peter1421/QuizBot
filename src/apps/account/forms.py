@@ -8,13 +8,10 @@ class SiteUserCreationForm(UserCreationForm):
     # 使用自定義用戶模型
     class Meta(UserCreationForm.Meta):
         model = SiteUser
-        fields = ("phone", "username", "password1", "password2")
+        fields = ( "username", "password1", "password2")
 
     def __init__(self, *args, **kwargs):
         super(SiteUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields["phone"].widget = forms.TextInput(
-            attrs={"class": "form-control mb-0", "placeholder": "輸入電話號碼"},
-        )
         self.fields["username"].widget = forms.TextInput(
             attrs={"class": "form-control mb-0", "placeholder": "用戶名"},
         )
@@ -44,7 +41,7 @@ class SiteUserForm(forms.ModelForm):
     class Meta:
         model = SiteUser
         model = SiteUser
-        fields = ["username", "phone", "email", "tml_house_id", "tml_person_id"]
+        fields = ["username", "phone", "email"]
         widgets = {
             "username": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "請輸入用戶名"},
@@ -54,11 +51,5 @@ class SiteUserForm(forms.ModelForm):
             ),
             "email": forms.EmailInput(
                 attrs={"class": "form-control", "placeholder": "請輸入電子郵件地址"},
-            ),
-            "tml_house_id": forms.NumberInput(
-                attrs={"class": "form-control", "placeholder": "請輸入家庭ID"},
-            ),
-            "tml_person_id": forms.NumberInput(
-                attrs={"class": "form-control", "placeholder": "請輸入個人ID"},
             ),
         }

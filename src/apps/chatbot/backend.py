@@ -2,6 +2,7 @@ import time
 
 from django.conf import settings
 from openai import OpenAI
+from django.contrib import messages
 
 # 全局初始化 OpenAI 客戶端
 client = OpenAI(api_key=settings.API_KEY)
@@ -44,8 +45,11 @@ def wait_for_completion(thread_id, run_id):
     run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
     while run.status != "completed":
         time.sleep(1)
+        message=f"{thread_id}-{run_id}提交成功，正在處理中，請稍後...{run.status}"
+        print(message)
         run = client.beta.threads.runs.retrieve(
             thread_id=thread_id, run_id=run_id)
+    message=f"{thread_id}-{run_id}提交成功，處理完成，請查看結果。{run.status}"
     return run
 
 

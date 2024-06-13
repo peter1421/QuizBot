@@ -11,11 +11,11 @@ class ChatbotManager(models.Manager):
         chatbot, created = super().get_or_create(
             account=account, chapter=chapter)
         if created:
-            chatbot.now_thread = create_threads_id(chapter)
+            chatbot.now_thread = create_threads_id()
             chatbot.save()
         return chatbot
 
-    def find_chapter_by_chatbot_id(self,chatbot_id):
+    def find_chapter_by_chatbot_id(self, chatbot_id):
         try:
             return self.chapter  # 返回對應的 Chapter 實例
         except Chatbot.DoesNotExist:
@@ -42,7 +42,7 @@ class ChatbotManager(models.Manager):
         """刪除一個聊天機器人"""
         chatbot = self.get(id=chatbot_id)
         chatbot.delete()
-    
+
     def find_chatbot_by_id(self, chatbot_id):
         """Find a chatbot instance by its ID and handle errors."""
         try:
@@ -56,6 +56,7 @@ class ChatbotManager(models.Manager):
         if chatbot and chatbot.account_id == user_id:
             return True
         return False  # Return False if not owned by the user or chatbot does not exist
+
 
 class Chatbot(models.Model):
     account = models.ForeignKey(

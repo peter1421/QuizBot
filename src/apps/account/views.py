@@ -39,14 +39,14 @@ def login_view(request):
                 pass
         else:
             try:
-                user = SiteUser.objects.get(phone=username)  # 通过手机号码查找用户
+                user = SiteUser.objects.get(username=username)  # 通过手机号码查找用户
             except SiteUser.DoesNotExist:
                 pass
 
         # 如果找到用户，使用authenticate进行密码验证
         if user:
             user = authenticate(
-                request, username=user.phone, password=password)
+                request, username=user.username, password=password)
 
         if user is not None:
             login(request, user)
