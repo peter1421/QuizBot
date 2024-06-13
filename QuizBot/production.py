@@ -226,7 +226,7 @@ for log_file in ["django.log", "request.log"]:
 CHATBOT_CONFIGS = {
     1: {
         "name": "Python機器人",
-        "ASSISTANT_ID": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
+        "assistant_id": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
     },
 }
 

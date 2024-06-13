@@ -76,7 +76,7 @@ class SiteUserManager(BaseUserManager):
 
 
 class SiteUser(AbstractBaseUser):
-    phone = models.CharField(verbose_name="手機號碼", max_length=255, unique=True)
+    phone = models.CharField(verbose_name="帳號", max_length=255, unique=True)
     email = models.EmailField(verbose_name="電子郵件", max_length=255, null=True)
     username = models.CharField(
         verbose_name="使用者名稱", max_length=254, blank=True, null=True,
