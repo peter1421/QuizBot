@@ -14,7 +14,6 @@ import os
 import sys
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -223,15 +222,16 @@ for log_file in ["django.log", "request.log"]:
         with open(log_file_path, "w"):
             pass
 
+# 部屬端ASSISTANT_ID
 CHATBOT_CONFIGS = {
     1: {
         "name": "Python機器人",
         "ASSISTANT_ID": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
-    }
+    },
 }
 
 try:
-    API_KEY = os.environ.get('CHATGPT_API_KEY')
+    API_KEY = os.environ.get("CHATGPT_API_KEY")
     if API_KEY is None:
         raise ValueError("CHATGPT_API_KEY is not set in the environment variables.")
 except Exception as e:

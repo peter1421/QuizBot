@@ -89,5 +89,7 @@ ignore = [
   "D203",
   # pydocstyle: Allow blank line after docstring
   "D202",
+  "D415",
+
 ]
 exclude = ["env"]

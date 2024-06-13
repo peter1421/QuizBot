@@ -8,7 +8,7 @@
 <div
   aria-live="polite"
   aria-atomic="true"
-  style="position: fixed; bottom: 10px; right: 20px; min-height: 100px; max-width: 300px;">
+  style="position: fixed; bottom: 10px; left: 20px; min-height: 100px; opacity: 0.5;">
   <!-- Position it -->
   <div>
     <!-- Then put toasts within -->
@@ -51,17 +51,26 @@
 {% endif %}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-    var toastList = toastElList.map(function (toastEl) {
-      return new bootstrap.Toast(toastEl)
-    });
+  $(document).ready(function () {
+    $('.toast').each(function () {
+      var hidetime = 3000
+      var $toast = $(this);
+      $toast.toast({ delay: hidetime });
+      $toast.toast('show');
 
-    document.querySelectorAll('.toast .close').forEach(function (closeButton) {
-      closeButton.addEventListener('click', function (event) {
-        var toastElement = closeButton.closest('.toast');
-        var toastInstance = bootstrap.Toast.getInstance(toastElement);
-        toastInstance.hide();
+      // 自动隐藏
+      setTimeout(function () {
+        $toast.toast('hide');
+      }, hidetime);
+
+      // 监听关闭按钮点击事件
+      $toast.find('.close').on('click', function () {
+        $toast.toast('hide');
+      });
+
+      // 當toast隐藏后确保它的display被设为none
+      $toast.on('hidden.bs.toast', function () {
+        $toast.css('display', 'none');
       });
     });
   });

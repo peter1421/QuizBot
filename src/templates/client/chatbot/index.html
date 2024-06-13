@@ -12,18 +12,8 @@
               <div class="row">
                 <div class="col-lg-4 chat-data-left scroller">
                   <div class="chat-sidebar-channel scroller mt-4 pl-3">
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
-                    <h5 class="mb-0">{{user.username}}-{{chapter.title}}</h5>
+                    <h5 class="mb-0">{{chatbot.account.username}}-{{chatbot.chapter.title}}</h5>
+                    <h5 class="mb-0">{{chatbot.account.username}}-{{chatbot.chapter.title}}</h5>
                   </div>
                 </div>
                 <div class="col-lg-8 chat-data p-0 chat-data-right">
@@ -47,8 +37,9 @@
                             ></i
                           ></span>
                         </div>
+                        <input type="hidden" id="chatbotId" value="{{ chatbot.id }}">
                         <h5 class="mb-0">
-                          {{user.username}}-{{chapter.title}}
+                          {{chatbot.account.username}}-{{chatbot.chapter.title}}
                         </h5>
                       </div>
                       <div
@@ -155,43 +146,6 @@
                     </header>
                   </div>
                   <div class="chat-content scroller">
-                    <div class="chat">
-                      <div class="chat-user">
-                        <a class="avatar m-0">
-                          <img
-                            src="{% static 'images/user/1.jpg' %}"
-                            alt="avatar"
-                            class="avatar-35"
-                          />
-                        </a>
-                        <span class="chat-time mt-1">6:45</span>
-                      </div>
-                      <div class="chat-detail">
-                        <div class="chat-message">
-                          <p>How can we help? We're here for you! 😄</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="chat chat-left">
-                      <div class="chat-user">
-                        <a class="avatar m-0">
-                          <img
-                            src="{% static 'images/user/05.jpg' %}"
-                            alt="avatar"
-                            class="avatar-35"
-                          />
-                        </a>
-                        <span class="chat-time mt-1">6:48</span>
-                      </div>
-                      <div class="chat-detail">
-                        <div class="chat-message">
-                          <p>
-                            Hey John, I am looking for the best admin template.
-                          </p>
-                          <p>Could you please help me to find it out? 🤔</p>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   <div class="chat-footer p-3 bg-white">
                     <form
@@ -209,13 +163,14 @@
                           ></i
                         ></a>
                       </div>
+                      
                       <input
                         type="text"
                         class="form-control mr-3"
-                        placeholder="Type your message"
+                        placeholder="請輸入內容"
                       />
                       <button
-                        button type="button" id="sendButton"
+                        button type="submit" id="sendButton"
                         class="btn btn-primary d-flex align-items-center p-2"
                       >
                         <i class="fa fa-paper-plane-o" aria-hidden="true"></i
@@ -248,37 +203,21 @@
                     </div>
                 </div>`;
       }
-      function testMessage() {
-        const chatContainer = $(".chat-content");
-        const userMessage = appendMessage(
-          "",
-          '{% static "images/user/1.jpg" %}',
-          "6:45",
-          'message'
-        );
-        const botMessage = appendMessage(
-          "left",
-          '{% static "images/user/05.jpg" %}',
-          "6:48",
-          'data.message'
-        );
-
-        chatContainer.append(userMessage + botMessage);
-        $(".scroller").scrollTop($(".scroller")[0].scrollHeight);
-      }
       function sendMessage(message) {
-        $.ajax({
-          url: "{% url 'api_chat_with_bot' %}",
-          type: "POST",
-          data: { csrfmiddlewaretoken: "{{ csrf_token }}", message: message },
-          success: function (data) {
-            const chatContainer = $(".chat-content");
-            const userMessage = appendMessage(
+        var chatbotId = $('#chatbotId').val();
+        var chatContainer = $(".chat-content");
+        const userMessage = appendMessage(
               "",
               '{% static "images/user/1.jpg" %}',
               "6:45",
               message
             );
+        chatContainer.append(userMessage);
+        $.ajax({
+          url: "{% url 'api_chat_with_bot' %}",
+          type: "POST",
+          data: { csrfmiddlewaretoken: "{{ csrf_token }}", message: message, chatbot_id:chatbotId},
+          success: function (data) {
             const botMessage = appendMessage(
               "left",
               '{% static "images/user/05.jpg" %}',
@@ -286,9 +225,8 @@
               data.message
             );
 
-            chatContainer.append(userMessage + botMessage);
+            chatContainer.append(botMessage);
             chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
-            //$(".scroller").scrollTop($(".scroller")[0].scrollHeight);
           },
           error: function (xhr, status, error) {
             console.error("AJAX Error:", error);

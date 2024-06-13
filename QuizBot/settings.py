@@ -223,10 +223,11 @@ for log_file in ["django.log", "request.log"]:
         with open(log_file_path, "w"):
             pass
 
+# 本地端ASSISTANT_ID
 CHATBOT_CONFIGS = {
     1: {
         "name": "Python機器人",
-        "ASSISTANT_ID": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
-    }
+        "assistant_id": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
+    },
 }
-API_KEY=API_KEY
+API_KEY = API_KEY

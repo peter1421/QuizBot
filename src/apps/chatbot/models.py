@@ -1,7 +1,6 @@
 # Correct import if User is your model
-from apps.account.models import SiteUser
 from apps.chapter.models import Chapter
-from apps.chatbot.backend import get_threads_id
+from apps.chatbot.backend import create_threads_id
 from django.db import models
 
 
@@ -12,9 +11,15 @@ class ChatbotManager(models.Manager):
         chatbot, created = super().get_or_create(
             account=account, chapter=chapter)
         if created:
-            chatbot.now_thread = get_threads_id(chapter)
+            chatbot.now_thread = create_threads_id(chapter)
             chatbot.save()
         return chatbot
+
+    def find_chapter_by_chatbot_id(self,chatbot_id):
+        try:
+            return self.chapter  # 返回對應的 Chapter 實例
+        except Chatbot.DoesNotExist:
+            return None  # 若找不到 Chatbot，返回 None
 
     def create_chatbot(self, user, chapter, now_thread):
         """創建一個新的聊天機器人實例"""
@@ -37,13 +42,26 @@ class ChatbotManager(models.Manager):
         """刪除一個聊天機器人"""
         chatbot = self.get(id=chatbot_id)
         chatbot.delete()
+    
+    def find_chatbot_by_id(self, chatbot_id):
+        """Find a chatbot instance by its ID and handle errors."""
+        try:
+            return self.get(id=chatbot_id)
+        except Chatbot.DoesNotExist:
+            return None  # Return None if the chatbot does not exist
 
+    def validate_owner(self, chatbot_id, user_id):
+        """Validate if the chatbot is owned by the given user."""
+        chatbot = self.find_chatbot_by_id(chatbot_id)
+        if chatbot and chatbot.account_id == user_id:
+            return True
+        return False  # Return False if not owned by the user or chatbot does not exist
 
 class Chatbot(models.Model):
     account = models.ForeignKey(
-        SiteUser, on_delete=models.CASCADE, verbose_name="使用者")
+        'account.SiteUser', on_delete=models.CASCADE, verbose_name="使用者")
     chapter = models.ForeignKey(
-        Chapter, on_delete=models.CASCADE, verbose_name="章節")
+        'chapter.Chapter', on_delete=models.CASCADE, verbose_name="章節")
     now_thread = models.CharField(
         max_length=200, verbose_name="目前聊天序列")  # 目前處理的執行緒或過程的標識符
 
@@ -55,11 +73,11 @@ class Chatbot(models.Model):
         verbose_name_plural = "聊天機器人們"
 
     def __str__(self):
-        account = self.account if self.account is not None else 'No account'
-        chapter = self.chapter if self.chapter is not None else 'No chapter'
-        now_thread = self.now_thread if self.now_thread is not None else 'No thread'
+        account = self.account if self.account is not None else "No account"
+        chapter = self.chapter if self.chapter is not None else "No chapter"
+        now_thread = self.now_thread if self.now_thread is not None else "No thread"
         return f"Chatbot(account={account}, chapter={chapter}, now_thread={now_thread})"
-    
+
 
 # Create your models here.
 # 訊息ID
@@ -77,18 +95,19 @@ class ChatMessage(models.Model):
     content = models.TextField(verbose_name="訊息內容")  # 信息內容
     tag = models.CharField(
         max_length=20, verbose_name="標籤")  # 信息的標籤
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="訊息時間戳")  # 信息的時間戳
+    timestamp = models.DateTimeField(
+        auto_now_add=True, verbose_name="訊息時間戳")  # 信息的時間戳
 
     class Meta:
         verbose_name = "聊天訊息"
         verbose_name_plural = "聊天訊息們"
 
     def __str__(self):
-        chatbot = self.chatbot if self.chatbot is not None else 'No chatbot'
-        role = self.role if self.role is not None else 'No role'
-        content = self.content if self.content is not None else 'No content'
-        tag = self.tag if self.tag is not None else 'No tag'
-        timestamp = self.timestamp if self.timestamp is not None else 'No timestamp'
+        chatbot = self.chatbot if self.chatbot is not None else "No chatbot"
+        role = self.role if self.role is not None else "No role"
+        content = self.content if self.content is not None else "No content"
+        tag = self.tag if self.tag is not None else "No tag"
+        timestamp = self.timestamp if self.timestamp is not None else "No timestamp"
         return f"ChatMessage(chatbot={chatbot}, role={role}, content={content}, tag={tag}, timestamp={timestamp})"
 # Create your models here.
 # 訊息ID

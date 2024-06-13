@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils.encoding import force_str
 
 from QuizBot.utils import get_client_ip
+from apps.chatbot.models import Chatbot
 
 
 def convert_to_unicode(obj):
@@ -115,5 +116,32 @@ def admin_required(view_func):
 
     return _wrapped_view
 
+def chatbot_owner_required(view_func):
+    """
+    裝飾器檢查當前用戶是否為聊天機器人的擁有者。
+    假設 'chatbot_id' 作為關鍵字參數傳遞給視圖。
+    """
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        chatbot_id = kwargs.get('chatbot_id')
+        if chatbot_id is None:
+            # 處理未提供 chatbot_id 的情況
+            message = "缺少必要的chatbot_id參數。"
+            messages.error(request, message)
+            return HttpResponseRedirect(reverse("client_home_index"))
+
+        user = request.user
+        if user.is_authenticated:
+            if Chatbot.objects.validate_owner(chatbot_id, user.id):
+                return view_func(request, *args, **kwargs)
+            else:
+                message = "您沒有權限訪問此聊天機器人，請聯絡管理員。"
+        else:
+            message = "請先登入才能進行操作。"
+
+        messages.error(request, message)
+        return HttpResponseRedirect(reverse("client_home_index"))
+
+    return _wrapped_view
 
 warningLogger = logging.getLogger("request_logger")
