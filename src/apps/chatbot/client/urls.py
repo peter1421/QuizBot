@@ -2,9 +2,10 @@
 
 from django.urls import path
 
-from apps.chatbot.client.views import index
+from apps.chatbot.client.views import index,api_chat_with_bot
 
 urlpatterns = [
     path("index/<str:chapter_id>/", index, name="client_chatbot_index_with_chapter"),
     path("index", index, name="client_chatbot_index"),
+    path("api/chat_with_bot",api_chat_with_bot,name="api_chat_with_bot"),
 ]

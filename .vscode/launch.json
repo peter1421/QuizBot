@@ -16,6 +16,9 @@
             ],
             "django": true,
             "justMyCode": false,
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "QuizBot.settings"
+            }
         },
         {
             "name": "Django attach",

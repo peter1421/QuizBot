@@ -1,11 +1,13 @@
 # views.py
 
 
-from apps.account.models import SiteUser
 from apps.chapter.models import Chapter
 from apps.chatbot.models import Chatbot
-from django.shortcuts import get_object_or_404, render
 from django.contrib import messages
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.csrf import csrf_exempt
+
 
 def index(request, chapter_id=None):
     user = request.user if request.user.is_authenticated else None
@@ -35,3 +37,13 @@ def index_ui(request):
         request,
         "client/chatbot/index_ui.html", context=content,
     )
+
+
+@csrf_exempt  # 允许跨站请求，为了简化示例
+def api_chat_with_bot(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message')
+        # 在这里添加您的处理逻辑来生成响应
+        response_message = "这里是机器人的回复。"  # 示例响应
+        return JsonResponse({'message': response_message})
+    return JsonResponse({'error': 'Invalid request'}, status=400)

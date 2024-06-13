@@ -59,3 +59,41 @@ class Chatbot(models.Model):
         chapter = self.chapter if self.chapter is not None else 'No chapter'
         now_thread = self.now_thread if self.now_thread is not None else 'No thread'
         return f"Chatbot(account={account}, chapter={chapter}, now_thread={now_thread})"
+    
+
+# Create your models here.
+# 訊息ID
+# 機器人ID
+# 角色 sender(user or bot or system)
+# 訊息內容
+# 標籤
+# 訊息時間戳
+
+class ChatMessage(models.Model):
+    chatbot = models.ForeignKey(
+        Chatbot, on_delete=models.CASCADE, verbose_name="聊天機器人")
+    role = models.CharField(
+        max_length=10, verbose_name="角色")  # 信息發送者的角色
+    content = models.TextField(verbose_name="訊息內容")  # 信息內容
+    tag = models.CharField(
+        max_length=20, verbose_name="標籤")  # 信息的標籤
+    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="訊息時間戳")  # 信息的時間戳
+
+    class Meta:
+        verbose_name = "聊天訊息"
+        verbose_name_plural = "聊天訊息們"
+
+    def __str__(self):
+        chatbot = self.chatbot if self.chatbot is not None else 'No chatbot'
+        role = self.role if self.role is not None else 'No role'
+        content = self.content if self.content is not None else 'No content'
+        tag = self.tag if self.tag is not None else 'No tag'
+        timestamp = self.timestamp if self.timestamp is not None else 'No timestamp'
+        return f"ChatMessage(chatbot={chatbot}, role={role}, content={content}, tag={tag}, timestamp={timestamp})"
+# Create your models here.
+# 訊息ID
+# 機器人ID
+# 角色 sender(user or bot or system)
+# 訊息內容
+# 標籤
+# 訊息時間戳
