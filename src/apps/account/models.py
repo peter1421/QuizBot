@@ -3,10 +3,8 @@ import random
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
-from QuizBot.middleware import debug_info
 
-
-class SiteUserManager(BaseUserManager):
+class AccountManager(BaseUserManager):
     # 創建一般用戶的方法
     def create_user(self, username, password):
         if not username:
@@ -32,11 +30,11 @@ class SiteUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
     def generate_unique_phone(self):
         while True:
             # 生成一個以 '10' 開頭的假電話號碼
-            new_phone = "10" + "".join([str(random.randint(0, 9)) for _ in range(8)])
+            new_phone = "10" + \
+                "".join([str(random.randint(0, 9)) for _ in range(8)])
             # 檢查生成的號碼是否已存在於資料庫中
             if not self.model.objects.filter(phone=new_phone).exists():
                 return new_phone
@@ -53,16 +51,16 @@ class SiteUserManager(BaseUserManager):
             raise ValueError(f"無法創建用戶: {str(e)}")
 
 
-class SiteUser(AbstractBaseUser):
-    email = models.EmailField(verbose_name="電子郵件", max_length=255, null=True)
+class Account(AbstractBaseUser):
     username = models.CharField(
-        verbose_name="使用者名稱", max_length=254, blank=True, null=True, unique=True
+        verbose_name="使用者名稱", max_length=254, blank=True, null=True, unique=True,
     )
+    email = models.EmailField(verbose_name="電子郵件", max_length=255, null=True)
     phone = models.CharField(verbose_name="手機", max_length=255)
     is_active = models.BooleanField(default=True)  # 是否為活躍用戶
     is_admin = models.BooleanField(default=False)  # 是否為管理員
 
-    objects = SiteUserManager()
+    objects = AccountManager()
 
     USERNAME_FIELD = "username"
 

@@ -1,17 +1,17 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import SiteUser
+from .models import Account
 
 
-class SiteUserCreationForm(UserCreationForm):
+class AccountCreationForm(UserCreationForm):
     # 使用自定義用戶模型
     class Meta(UserCreationForm.Meta):
-        model = SiteUser
-        fields = ( "username", "password1", "password2")
+        model = Account
+        fields = ("username", "password1", "password2")
 
     def __init__(self, *args, **kwargs):
-        super(SiteUserCreationForm, self).__init__(*args, **kwargs)
+        super(AccountCreationForm, self).__init__(*args, **kwargs)
         self.fields["username"].widget = forms.TextInput(
             attrs={"class": "form-control mb-0", "placeholder": "用戶名"},
         )
@@ -25,22 +25,22 @@ class SiteUserCreationForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get("email")
         # 驗證電子郵件是否唯一
-        if email and SiteUser.objects.filter(email=email).exists():
+        if email and Account.objects.filter(email=email).exists():
             raise forms.ValidationError("這個電子郵件已被註冊")
         return email
 
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
         # 驗證電話號碼是否唯一
-        if SiteUser.objects.filter(phone=phone).exists():
+        if Account.objects.filter(phone=phone).exists():
             raise forms.ValidationError("這個電話號碼已被註冊")
         return phone
 
 
-class SiteUserForm(forms.ModelForm):
+class AccountForm(forms.ModelForm):
     class Meta:
-        model = SiteUser
-        model = SiteUser
+        model = Account
+        model = Account
         fields = ["username", "phone", "email"]
         widgets = {
             "username": forms.TextInput(

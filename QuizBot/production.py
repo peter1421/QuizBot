@@ -161,7 +161,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "account.SiteUser"
+AUTH_USER_MODEL = "account.Account"
 LOGIN_URL = "/account/login/"
 
 # CSRF_TRUSTED_ORIGINS = ["https://*", "http://*"]
@@ -233,7 +233,8 @@ CHATBOT_CONFIGS = {
 try:
     API_KEY = os.environ.get("CHATGPT_API_KEY")
     if API_KEY is None:
-        raise ValueError("CHATGPT_API_KEY is not set in the environment variables.")
+        raise ValueError(
+            "CHATGPT_API_KEY is not set in the environment variables.")
 except Exception as e:
     print(e)
     API_KEY = ""

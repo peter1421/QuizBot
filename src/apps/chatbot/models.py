@@ -1,5 +1,5 @@
 # Correct import if User is your model
-from apps.chapter.models import Chapter
+from apps.account.models import Account
 from apps.chatbot.backend import create_threads_id
 from django.db import models
 
@@ -60,9 +60,9 @@ class ChatbotManager(models.Manager):
 
 class Chatbot(models.Model):
     account = models.ForeignKey(
-        'account.SiteUser', on_delete=models.CASCADE, verbose_name="使用者")
+        Account, on_delete=models.CASCADE, verbose_name="使用者")
     chapter = models.ForeignKey(
-        'chapter.Chapter', on_delete=models.CASCADE, verbose_name="章節")
+        "chapter.Chapter", on_delete=models.CASCADE, verbose_name="章節")
     now_thread = models.CharField(
         max_length=200, verbose_name="目前聊天序列")  # 目前處理的執行緒或過程的標識符
 

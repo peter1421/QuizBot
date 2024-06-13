@@ -4,15 +4,15 @@ from django.shortcuts import redirect, render
 
 from QuizBot.middleware import admin_required  # Django的内置登录装饰器
 
-from .forms import SiteUserCreationForm  # 确保这里导入的是您的自定义表单类
-from .models import SiteUser
+from .forms import AccountCreationForm  # 确保这里导入的是您的自定义表单类
+from .models import Account
 
 
 @login_required
 @admin_required
 def register_view(request):
     if request.method == "POST":
-        form = SiteUserCreationForm(request.POST)
+        form = AccountCreationForm(request.POST)
         print(request.POST)
         if form.is_valid():
             form.save()
@@ -20,7 +20,7 @@ def register_view(request):
         else:
             print(form.errors)  # 打印表单验证错误
     else:
-        form = SiteUserCreationForm()
+        form = AccountCreationForm()
     return render(request, "account/register.html", {"form": form})
 
 
@@ -34,13 +34,13 @@ def login_view(request):
         # 检查输入是否为电子邮件格式
         if "@" in username:
             try:
-                user = SiteUser.objects.get(email=username)  # 通过电子邮件查找用户
-            except SiteUser.DoesNotExist:
+                user = Account.objects.get(email=username)  # 通过电子邮件查找用户
+            except Account.DoesNotExist:
                 pass
         else:
             try:
-                user = SiteUser.objects.get(username=username)  # 通过手机号码查找用户
-            except SiteUser.DoesNotExist:
+                user = Account.objects.get(username=username)  # 通过手机号码查找用户
+            except Account.DoesNotExist:
                 pass
 
         # 如果找到用户，使用authenticate进行密码验证

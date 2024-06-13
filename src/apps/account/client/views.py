@@ -1,30 +1,24 @@
 # views.py
 
-import urllib
 
 from apps.account.client.bankend import login_user
-from apps.account.forms import SiteUserCreationForm, SiteUserForm
-from apps.account.models import SiteUser
-from django.conf import settings
+from apps.account.forms import AccountCreationForm, AccountForm
+from apps.account.models import Account
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from QuizBot.service import LineService
-from QuizBot.utils import handle_error
-
 
 def register_index(request):
-    form = SiteUserCreationForm(request.POST or None)
+    form = AccountCreationForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         password = request.POST.get("password1")
         username = form.cleaned_data.get("username")
         is_admin = form.cleaned_data.get("is_admin", False)
         try:
-            SiteUser.objects.register_user(username, password, is_admin)
+            Account.objects.register_user(username, password, is_admin)
             messages.success(request, "註冊成功")
             return login_user(request, username, password, "client_home_index")
         except ValueError as e:
@@ -49,14 +43,14 @@ def login_index(request):
         # 检查输入是否为电子邮件格式
         if "@" in username:
             try:
-                user = SiteUser.objects.get(email=username)  # 通过电子邮件查找用户
-            except SiteUser.DoesNotExist:
+                user = Account.objects.get(email=username)  # 通过电子邮件查找用户
+            except Account.DoesNotExist:
                 pass
         else:
             try:
-                user = SiteUser.objects.get(
+                user = Account.objects.get(
                     username=username)  # 通过username码查找用户
-            except SiteUser.DoesNotExist:
+            except Account.DoesNotExist:
                 pass
 
         # 如果找到用户，使用authenticate进行密码验证
@@ -79,13 +73,13 @@ def logout_index(request):
 
 @login_required
 def profile_index(request):
-    user = get_object_or_404(SiteUser, pk=request.user.pk)  # 確保用戶已登入
+    user = get_object_or_404(Account, pk=request.user.pk)  # 確保用戶已登入
     if request.method == "POST":
-        form = SiteUserForm(request.POST, instance=user)
+        form = AccountForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
             return redirect("client_account_profile_index")  # 重定向到更新成功的頁面
     else:
-        form = SiteUserForm(instance=user)
+        form = AccountForm(instance=user)
     context = {"form": form}
     return render(request, "client/account/profile/index.html", context)
