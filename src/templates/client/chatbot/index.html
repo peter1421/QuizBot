@@ -213,6 +213,7 @@
               message
             );
         chatContainer.append(userMessage);
+        chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
         $.ajax({
           url: "{% url 'api_chat_with_bot' %}",
           type: "POST",

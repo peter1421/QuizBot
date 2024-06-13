@@ -30,6 +30,10 @@ class Chapter(models.Model):
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "章節"
+        verbose_name_plural = "章節們"
+
     objects = ChapterManager()
     def __str__(self):
         return self.title

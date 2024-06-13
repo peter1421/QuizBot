@@ -44,6 +44,6 @@ urlpatterns = [
     path("client/chatbot/", include("apps.chatbot.client.urls")),
 
     path("client/chapter/", include("apps.chapter.client.urls")),
-    path("admin/chapter/", include("apps.chapter.admin.urls")),
+    # path("admin/chapter/", include("apps.chapter.admin.urls")),
 
 ]
