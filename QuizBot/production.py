@@ -236,6 +236,8 @@ try:
     if API_KEY is None:
         raise ValueError(
             "CHATGPT_API_KEY is not set in the environment variables.")
+    else:
+        print("API_KEY:", API_KEY)
 except Exception as e:
     print(e)
     API_KEY = ""

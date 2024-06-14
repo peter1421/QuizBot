@@ -84,6 +84,7 @@ def get_latest_message(messages):
 
 
 def get_chatbot_response(user_input, chatbot):
+    print(f"使用settings.API_KEY:{settings.API_KEY}")
     state = continue_conversation(user_input, chatbot)
     thread_id = chatbot.now_thread
     try:
