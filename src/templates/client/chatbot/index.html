@@ -200,152 +200,6 @@
     $(document).ready(function () {
       initMessages();
       // 添加消息到聊天界面
-      function loadingMessage() {
-        const cards = [
-          {
-            name: "中央大學",
-            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
-            fortune:
-              "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
-            luck: "大凶",
-            weight: 10, // 更稀有，权重较低
-          },
-          {
-            name: "裝剩蚊",
-            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
-            fortune: "你今天可能會被怪伯伯糾纏。",
-            luck: "大凶",
-            weight: 10, // 更稀有，权重较低
-          },
-          {
-            name: "星辰導師",
-            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
-            fortune:
-              "今日你將遇見重要的人或事，這將是推動你前進的關鍵。抓住機會，大膽前行，你的勇氣將會得到宇宙的獎賞。",
-            luck: "大吉",
-            weight: 2, // 更稀有，权重较低
-          },
-          {
-            name: "海洋領航者",
-            rarity: "⭐⭐⭐⭐（稀有）",
-            fortune:
-              "潮汐帶來新的開始。你將在人際關係中發現新的可能，新朋友或合作伙伴將為你帶來益處。",
-            luck: "中吉",
-            weight: 6, // 较常见，权重适中
-          },
-          {
-            name: "知識守護者",
-            rarity: "⭐⭐⭐（中等稀有）",
-            fortune:
-              "學習和成長將是今天的主題。吸收新知識，這將為未來的挑戰裝備自己。",
-            luck: "小吉",
-            weight: 8, // 更常见，权重较高
-          },
-          {
-            name: "災厄之影",
-            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
-            fortune: "小心今天的選擇，可能帶來未料的困難或損失。",
-            luck: "大凶",
-            weight: 2, // 超級稀有，但带来的不是好运
-          },
-          {
-            name: "迷失者",
-            rarity: "⭐⭐⭐（中等稀有）",
-            fortune: "可能會感到迷茫和失落，建议今天避免重要决策。",
-            luck: "凶",
-            weight: 6,
-          },
-          {
-            name: "遺忘的誓言",
-            rarity: "⭐⭐⭐⭐（稀有）",
-            fortune: "過去的承諾可能會造成今天的困擾，小心处理人际关系。",
-            luck: "小凶",
-            weight: 7,
-          },
-          {
-            name: "逆風行者",
-            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
-            fortune: "今日面臨逆境，需要额外的努力和耐心才能克服。",
-            luck: "凶",
-            weight: 4,
-          },
-          {
-            name: "幽谷行者",
-            rarity: "⭐⭐（較常見）",
-            fortune: "可能會遇到意料之外的挑战，建议保持低调。",
-            luck: "中凶",
-            weight: 10,
-          },
-        ];
-
-        // 计算总权重
-        const totalWeight = cards.reduce(
-          (total, card) => total + card.weight,
-          0
-        );
-
-        // 随机选择卡片，根据权重
-        let random = Math.random() * totalWeight;
-        let selectedCard;
-        for (const card of cards) {
-          if (random < card.weight) {
-            selectedCard = card;
-            break;
-          }
-          random -= card.weight;
-        }
-
-        const randomImage =
-          Math.random() < 0.5 ? "input_load.gif" : "input_load2.gif";
-
-        return `
-        <div id="loadingMessage">
-          <div class="chat chat-left">
-            <div class="chat-user">
-                <a class="avatar m-0">
-                    <img src="{% static 'images/user/1.jpg' %}" alt="avatar" class="avatar-35" />
-                </a>
-                <span class="chat-time mt-1">12:00</span>
-            </div>
-            <div class="chat-detail">
-                <div class="chat-message"><img class="mt-2 img-fluid rounded" src="{% static '/assets/images/${randomImage}' %}" width="100" height="100"></div>
-                <div class="chat-message"><p>🔮 抽卡結果 🔮<br><strong>本日抽卡：</strong>${selectedCard.luck}<br><strong>稀有度：</strong>${selectedCard.rarity}<br><strong>說明：</strong>${selectedCard.fortune}</div>
-            </div>
-          </div>
-        </div>`;
-      }
-      function appendMessage(side, imgSrc, time, messageText) {
-        const sideClass = side === "assistant" ? " chat-left" : ""; // 根據發送方決定消息框位置
-        return `
-      <div class="chat${sideClass}">
-          <div class="chat-user">
-              <a class="avatar m-0">
-                  <img src="${imgSrc}" alt="avatar" class="avatar-35" />
-              </a>
-              <span class="chat-time mt-1">${time}</span>
-          </div>
-          <div class="chat-detail">
-              <div class="chat-message"><p>${messageText}</p></div>
-          </div>
-      </div>`;
-      }
-      function speak(text) {
-        // 創建一個新的 SpeechSynthesisUtterance 實例
-        var utterance = new SpeechSynthesisUtterance(text);
-
-        // 選擇語音。這是可選的，也可以留空使用系統預設語音
-        var voices = window.speechSynthesis.getVoices();
-        utterance.voice = voices.filter(function (voice) {
-          return voice.lang === "zh-TW";
-        })[0]; // 選擇特定語言的語音，這裡以繁體中文為例
-
-        // 設置其他屬性，如語速和音調
-        utterance.rate = 1; // 語速，範圍從0.1至10，預設為1
-        utterance.pitch = 1; // 音調，範圍從0至2，預設為1
-
-        // 將utterance傳給speechSynthesis介面
-        window.speechSynthesis.speak(utterance);
-      }
       // 格式化時間為 HH:MM 格式
       function formattedTime(date) {
         return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
@@ -370,7 +224,7 @@
                 message.role,
                 '{% static "images/user/1.jpg" %}',
                 formattedTime(createdAt),
-                message.content
+                (messageText = message.content)
               );
               chatContainer.append(messageElement);
             });
@@ -406,15 +260,15 @@
           "user",
           '{% static "images/user/1.jpg" %}',
           formattedTime(now),
-          message
+          (messageText = message)
         );
 
         chatContainer.append(userMessage);
-        
+
         chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
         // 延迟 0.5 秒后滚动到聊天容器的底部
         setTimeout(function () {
-          chatContainer.append(loadingMessage);
+          chatContainer.append(loadingMessage());
           chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
         }, 1000);
 
@@ -429,7 +283,7 @@
               data.data.role,
               '{% static "images/user/05.jpg" %}',
               formattedTime(createdAt),
-              data.data.content
+              (messageText = data.data.content)
             );
             speak(data.data.content);
             chatContainer.append(botMessage);
@@ -450,6 +304,123 @@
           $('input[type="text"]').val("");
         }
       });
+
+      function loadingMessage() {
+        const cards = getCardsData();
+        const totalWeight = calculateTotalWeight(cards);
+        const selectedCard = selectCardByWeight(cards, totalWeight);
+        const messageText = generateMessageText(selectedCard);
+        const randomImage = chooseRandomImage();
+        const time = formattedTime(new Date());
+        const imageMessage = generateImageMessage(randomImage, time);
+        const textMessage = generateTextMessage(messageText, time);
+        return appendMessages(imageMessage, textMessage);
+      }
+
+      //TODO:從後端獲取
+      function getCardsData() {
+        return [
+          {
+            name: "中央大學",
+            rarity: "⭐⭐⭐⭐⭐",
+            fortune:
+              "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+            luck: "大凶",
+            weight: 10, // 更稀有，权重较低
+          },
+          {
+            name: "裝剩蚊",
+            rarity: "⭐⭐⭐⭐⭐",
+            fortune:
+              "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+            luck: "大凶",
+            weight: 10, // 更稀有，权重较低
+          },
+          {
+            name: "星辰導師",
+            rarity: "⭐⭐⭐⭐⭐",
+            fortune:
+              "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+            luck: "大吉",
+            weight: 2, // 更稀有，权重较低
+          },
+          {
+            name: "海洋領航者",
+            rarity: "⭐⭐⭐⭐",
+            fortune:
+              "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+            luck: "中吉",
+            weight: 6, // 较常见，权重适中
+          },
+          {
+            name: "知識守護者",
+            rarity: "⭐⭐⭐",
+            fortune:
+            "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+            luck: "小吉",
+            weight: 8, // 更常见，权重较高
+          },
+          {
+            name: "災厄之影",
+            rarity: "⭐⭐⭐⭐⭐",
+            fortune:"國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+            luck: "大凶",
+            weight: 2, // 超級稀有，但带来的不是好运
+          },
+          {
+            name: "迷失者",
+            rarity: "⭐⭐⭐",
+            fortune: "可能會感到迷茫和失落，建议今天避免重要决策。",
+            luck: "凶",
+            weight: 6,
+          },
+          {
+            name: "遺忘的誓言",
+            rarity: "⭐⭐⭐⭐",
+            fortune: "過去的承諾可能會造成今天的困擾，小心处理人际关系。",
+            luck: "小凶",
+            weight: 7,
+          },
+          {
+            name: "逆風行者",
+            rarity: "⭐⭐⭐⭐⭐",
+            fortune: "今日面臨逆境，需要额外的努力和耐心才能克服。",
+            luck: "凶",
+            weight: 4,
+          },
+          {
+            name: "幽谷行者",
+            rarity: "⭐⭐",
+            fortune: "可能會遇到意料之外的挑战，建议保持低调。",
+            luck: "中凶",
+            weight: 10,
+          },
+        ];
+      }
+      function chooseRandomImage() {
+        return Math.random() < 0.5
+          ? "{% static 'assets/images/input_load.gif' %}"
+          : "{% static 'assets/images/input_load2.gif' %}";
+      }
+      function generateImageMessage(imageSource, time) {
+        return appendMessage(
+          "assistant",
+          '{% static "images/user/05.jpg" %}',
+          time,
+          null,
+          imageSource
+        );
+      }
+
+      function generateTextMessage(text, time) {
+        return appendMessage(
+          "assistant",
+          '{% static "images/user/05.jpg" %}',
+          time,
+          text,
+          null
+        );
+      }
     });
   </script>
 </div>

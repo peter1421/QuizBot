@@ -33,20 +33,7 @@ function clearCookies() {
   alert("所有 cookies 已清除！");
 }
 
-function speak(text) {
-  // 創建一個新的 SpeechSynthesisUtterance 實例
-  var utterance = new SpeechSynthesisUtterance(text);
-
-  // 選擇語音。這是可選的，也可以留空使用系統預設語音
-  var voices = window.speechSynthesis.getVoices();
-  utterance.voice = voices.filter(function (voice) {
-    return voice.lang === "zh-TW";
-  })[0]; // 選擇特定語言的語音，這裡以繁體中文為例
-
-  // 設置其他屬性，如語速和音調
-  utterance.rate = 1; // 語速，範圍從0.1至10，預設為1
-  utterance.pitch = 1; // 音調，範圍從0至2，預設為1
-
-  // 將utterance傳給speechSynthesis介面
-  window.speechSynthesis.speak(utterance);
+// 格式化時間為 HH:MM 格式
+function formattedTime(date) {
+  return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
 }
