@@ -166,7 +166,7 @@ AUTH_USER_MODEL = "account.Account"
 LOGIN_URL = "/account/login/"
 
 # CSRF_TRUSTED_ORIGINS = ["https://*", "http://*"]
-CSRF_TRUSTED_ORIGINS = ["https://*.azurewebsites.net"]
+CSRF_TRUSTED_ORIGINS = ["https://*.azurewebsites.net","https://*", "http://*"]
 
 X_FRAME_OPTIONS = "ALLOW-FROM uri"
 
