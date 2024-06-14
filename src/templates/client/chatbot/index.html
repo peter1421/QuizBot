@@ -202,23 +202,22 @@
       // 添加消息到聊天界面
       function loadingMessage() {
         const cards = [
-        {
-          name: "中央大學",
-          rarity: "⭐⭐⭐⭐⭐（超級稀有）",
-          fortune:
-            "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
-          luck: "大凶",
-          weight: 10, // 更稀有，权重较低
-        },  
-        {
-          name: "裝剩蚊",
-          rarity: "⭐⭐⭐⭐⭐（超級稀有）",
-          fortune:
-            "你今天可能會被怪伯伯糾纏。",
-          luck: "大凶",
-          weight: 10, // 更稀有，权重较低
-        },  
-        {
+          {
+            name: "中央大學",
+            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
+            fortune:
+              "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+            luck: "大凶",
+            weight: 10, // 更稀有，权重较低
+          },
+          {
+            name: "裝剩蚊",
+            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
+            fortune: "你今天可能會被怪伯伯糾纏。",
+            luck: "大凶",
+            weight: 10, // 更稀有，权重较低
+          },
+          {
             name: "星辰導師",
             rarity: "⭐⭐⭐⭐⭐（超級稀有）",
             fortune:
@@ -330,7 +329,23 @@
           </div>
       </div>`;
       }
+      function speak(text) {
+        // 創建一個新的 SpeechSynthesisUtterance 實例
+        var utterance = new SpeechSynthesisUtterance(text);
 
+        // 選擇語音。這是可選的，也可以留空使用系統預設語音
+        var voices = window.speechSynthesis.getVoices();
+        utterance.voice = voices.filter(function (voice) {
+          return voice.lang === "zh-TW";
+        })[0]; // 選擇特定語言的語音，這裡以繁體中文為例
+
+        // 設置其他屬性，如語速和音調
+        utterance.rate = 1; // 語速，範圍從0.1至10，預設為1
+        utterance.pitch = 1; // 音調，範圍從0至2，預設為1
+
+        // 將utterance傳給speechSynthesis介面
+        window.speechSynthesis.speak(utterance);
+      }
       // 格式化時間為 HH:MM 格式
       function formattedTime(date) {
         return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
@@ -395,6 +410,7 @@
         );
 
         chatContainer.append(userMessage);
+        
         chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
         // 延迟 0.5 秒后滚动到聊天容器的底部
         setTimeout(function () {
@@ -415,7 +431,7 @@
               formattedTime(createdAt),
               data.data.content
             );
-
+            speak(data.data.content);
             chatContainer.append(botMessage);
             chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
           },

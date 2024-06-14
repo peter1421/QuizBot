@@ -23,40 +23,30 @@ function clearCookies() {
 
   // 循环遍历并清除每一个 cookie
   for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i];
-      var eqPos = cookie.indexOf("=");
-      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
   }
 
   // 清除后的提示
   alert("所有 cookies 已清除！");
 }
 
-function initUpdateAddress() {
-  $(".add_city").change(function () {
-    updateTowns($(this));
-  });
-}
-function updateTowns(citySelect) {
-  var city = citySelect.val(); // 获取选中的城市
+function speak(text) {
+  // 創建一個新的 SpeechSynthesisUtterance 實例
+  var utterance = new SpeechSynthesisUtterance(text);
 
-  var townSelect = citySelect.closest('form').find('.add_town'); // 根据表单查找相应的城镇下拉菜单
+  // 選擇語音。這是可選的，也可以留空使用系統預設語音
+  var voices = window.speechSynthesis.getVoices();
+  utterance.voice = voices.filter(function (voice) {
+    return voice.lang === "zh-TW";
+  })[0]; // 選擇特定語言的語音，這裡以繁體中文為例
 
-  if (city) {
-    $.ajax({
-      url: loadTownsUrl,
-      data: {
-        city: city, // 将城市作为参数发送
-      },
-      success: function (data) {
-        townSelect.empty(); // 清空现有的选项
-        townSelect.append($("<option>").val("").text("---------")); // 添加默认选项
+  // 設置其他屬性，如語速和音調
+  utterance.rate = 1; // 語速，範圍從0.1至10，預設為1
+  utterance.pitch = 1; // 音調，範圍從0至2，預設為1
 
-        $.each(data, function (index, item) {
-          townSelect.append($("<option>").val(item.tac_town).text(item.tac_town));
-        });
-      },
-    });
-  }
+  // 將utterance傳給speechSynthesis介面
+  window.speechSynthesis.speak(utterance);
 }
