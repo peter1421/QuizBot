@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class ChapterManager(models.Manager):
     def create_chapter(self, number, title, content):
         chapter = self.create(number=number, title=title, content=content)

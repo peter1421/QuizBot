@@ -12,8 +12,12 @@
               <div class="row">
                 <div class="col-lg-4 chat-data-left scroller">
                   <div class="chat-sidebar-channel scroller mt-4 pl-3">
-                    <h5 class="mb-0">{{chatbot.account.username}}-{{chatbot.chapter.title}}</h5>
-                    <h5 class="mb-0">{{chatbot.account.username}}-{{chatbot.chapter.title}}</h5>
+                    <h5 class="mb-0">
+                      {{chatbot.account.username}}-{{chatbot.chapter.title}}
+                    </h5>
+                    <h5 class="mb-0">
+                      {{chatbot.account.username}}-{{chatbot.chapter.title}}
+                    </h5>
                   </div>
                 </div>
                 <div class="col-lg-8 chat-data p-0 chat-data-right">
@@ -37,7 +41,11 @@
                             ></i
                           ></span>
                         </div>
-                        <input type="hidden" id="chatbotId" value="{{ chatbot.id }}">
+                        <input
+                          type="hidden"
+                          id="chatbotId"
+                          value="{{ chatbot.id }}"
+                        />
                         <h5 class="mb-0">
                           {{chatbot.account.username}}-{{chatbot.chapter.title}}
                         </h5>
@@ -145,8 +153,7 @@
                       </div>
                     </header>
                   </div>
-                  <div class="chat-content scroller">
-                  </div>
+                  <div class="chat-content scroller"></div>
                   <div class="chat-footer p-3 bg-white">
                     <form
                       class="d-flex align-items-center"
@@ -163,14 +170,16 @@
                           ></i
                         ></a>
                       </div>
-                      
+
                       <input
                         type="text"
                         class="form-control mr-3"
                         placeholder="請輸入內容"
                       />
                       <button
-                        button type="submit" id="sendButton"
+                        button
+                        type="submit"
+                        id="sendButton"
                         class="btn btn-primary d-flex align-items-center p-2"
                       >
                         <i class="fa fa-paper-plane-o" aria-hidden="true"></i
@@ -187,52 +196,234 @@
     </div>
   </div>
   <script>
+    //TODO:整理
     $(document).ready(function () {
-      function appendMessage(side, imgSrc, time, messageText) {
-        const sideClass = side === "left" ? " chat-left" : "";
+      initMessages();
+      // 添加消息到聊天界面
+      function loadingMessage() {
+        const cards = [
+        {
+          name: "中央大學",
+          rarity: "⭐⭐⭐⭐⭐（超級稀有）",
+          fortune:
+            "國立中央大學是一所積極新創、學科齊全、學術實力雄厚、辦學特色鮮明，在國際上具有重要影響力與競爭力的綜合性大學，在多個學術領域具有非常前瞻的科技實力，擁有世界一流的實驗室與師資力量，各種排名均位於全球前列。歡迎大家報考國立中央大學。",
+          luck: "大凶",
+          weight: 10, // 更稀有，权重较低
+        },  
+        {
+          name: "裝剩蚊",
+          rarity: "⭐⭐⭐⭐⭐（超級稀有）",
+          fortune:
+            "你今天可能會被怪伯伯糾纏。",
+          luck: "大凶",
+          weight: 10, // 更稀有，权重较低
+        },  
+        {
+            name: "星辰導師",
+            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
+            fortune:
+              "今日你將遇見重要的人或事，這將是推動你前進的關鍵。抓住機會，大膽前行，你的勇氣將會得到宇宙的獎賞。",
+            luck: "大吉",
+            weight: 2, // 更稀有，权重较低
+          },
+          {
+            name: "海洋領航者",
+            rarity: "⭐⭐⭐⭐（稀有）",
+            fortune:
+              "潮汐帶來新的開始。你將在人際關係中發現新的可能，新朋友或合作伙伴將為你帶來益處。",
+            luck: "中吉",
+            weight: 6, // 较常见，权重适中
+          },
+          {
+            name: "知識守護者",
+            rarity: "⭐⭐⭐（中等稀有）",
+            fortune:
+              "學習和成長將是今天的主題。吸收新知識，這將為未來的挑戰裝備自己。",
+            luck: "小吉",
+            weight: 8, // 更常见，权重较高
+          },
+          {
+            name: "災厄之影",
+            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
+            fortune: "小心今天的選擇，可能帶來未料的困難或損失。",
+            luck: "大凶",
+            weight: 2, // 超級稀有，但带来的不是好运
+          },
+          {
+            name: "迷失者",
+            rarity: "⭐⭐⭐（中等稀有）",
+            fortune: "可能會感到迷茫和失落，建议今天避免重要决策。",
+            luck: "凶",
+            weight: 6,
+          },
+          {
+            name: "遺忘的誓言",
+            rarity: "⭐⭐⭐⭐（稀有）",
+            fortune: "過去的承諾可能會造成今天的困擾，小心处理人际关系。",
+            luck: "小凶",
+            weight: 7,
+          },
+          {
+            name: "逆風行者",
+            rarity: "⭐⭐⭐⭐⭐（超級稀有）",
+            fortune: "今日面臨逆境，需要额外的努力和耐心才能克服。",
+            luck: "凶",
+            weight: 4,
+          },
+          {
+            name: "幽谷行者",
+            rarity: "⭐⭐（較常見）",
+            fortune: "可能會遇到意料之外的挑战，建议保持低调。",
+            luck: "中凶",
+            weight: 10,
+          },
+        ];
+
+        // 计算总权重
+        const totalWeight = cards.reduce(
+          (total, card) => total + card.weight,
+          0
+        );
+
+        // 随机选择卡片，根据权重
+        let random = Math.random() * totalWeight;
+        let selectedCard;
+        for (const card of cards) {
+          if (random < card.weight) {
+            selectedCard = card;
+            break;
+          }
+          random -= card.weight;
+        }
+
+        const randomImage =
+          Math.random() < 0.5 ? "input_load.gif" : "input_load2.gif";
+
         return `
-                <div class="chat${sideClass}">
-                    <div class="chat-user">
-                        <a class="avatar m-0">
-                            <img src="${imgSrc}" alt="avatar" class="avatar-35" />
-                        </a>
-                        <span class="chat-time mt-1">${time}</span>
-                    </div>
-                    <div class="chat-detail">
-                        <div class="chat-message"><p>${messageText}</p></div>
-                    </div>
-                </div>`;
+        <div id="loadingMessage">
+          <div class="chat chat-left">
+            <div class="chat-user">
+                <a class="avatar m-0">
+                    <img src="{% static 'images/user/1.jpg' %}" alt="avatar" class="avatar-35" />
+                </a>
+                <span class="chat-time mt-1">12:00</span>
+            </div>
+            <div class="chat-detail">
+                <div class="chat-message"><img class="mt-2 img-fluid rounded" src="{% static '/assets/images/${randomImage}' %}" width="100" height="100"></div>
+                <div class="chat-message"><p>🔮 抽卡結果 🔮<br><strong>本日抽卡：</strong>${selectedCard.luck}<br><strong>稀有度：</strong>${selectedCard.rarity}<br><strong>說明：</strong>${selectedCard.fortune}</div>
+            </div>
+          </div>
+        </div>`;
       }
-      function sendMessage(message) {
-        var chatbotId = $('#chatbotId').val();
-        var chatContainer = $(".chat-content");
-        const userMessage = appendMessage(
-              "",
-              '{% static "images/user/1.jpg" %}',
-              "6:45",
-              message
-            );
-        chatContainer.append(userMessage);
-        chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
+      function appendMessage(side, imgSrc, time, messageText) {
+        const sideClass = side === "assistant" ? " chat-left" : ""; // 根據發送方決定消息框位置
+        return `
+      <div class="chat${sideClass}">
+          <div class="chat-user">
+              <a class="avatar m-0">
+                  <img src="${imgSrc}" alt="avatar" class="avatar-35" />
+              </a>
+              <span class="chat-time mt-1">${time}</span>
+          </div>
+          <div class="chat-detail">
+              <div class="chat-message"><p>${messageText}</p></div>
+          </div>
+      </div>`;
+      }
+
+      // 格式化時間為 HH:MM 格式
+      function formattedTime(date) {
+        return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
+      }
+      function initMessages() {
+        const chatbotId = $("#chatbotId").val();
+        fetchAndDisplayMessages(chatbotId);
+      }
+      function fetchAndDisplayMessages(chatbotId) {
+        $.ajax({
+          url: "{% url 'api_get_message_by_chatbot_id' %}",
+          type: "GET",
+          data: { chatbot_id: chatbotId },
+          dataType: "json", // 預期從服務器返回 JSON 數據
+          success: function (response) {
+            const chatContainer = $(".chat-content");
+            chatContainer.empty(); // 清空當前內容，準備顯示新消息
+
+            response.forEach(function (message) {
+              const createdAt = new Date(message.created_at);
+              const messageElement = appendMessage(
+                message.role,
+                '{% static "images/user/1.jpg" %}',
+                formattedTime(createdAt),
+                message.content
+              );
+              chatContainer.append(messageElement);
+            });
+            chatContainer.scrollTop(chatContainer.prop("scrollHeight")); // 滾動到最底部
+          },
+          error: function (xhr, status, error) {
+            alert("無法從伺服器獲取消息：" + error);
+          },
+        });
+      }
+      // 封裝的 AJAX 請求函數
+      function sendChatRequest(message, onSuccess, onError) {
+        const chatbotId = $("#chatbotId").val(); // 獲取聊天機器人的 ID
+
         $.ajax({
           url: "{% url 'api_chat_with_bot' %}",
           type: "POST",
-          data: { csrfmiddlewaretoken: "{{ csrf_token }}", message: message, chatbot_id:chatbotId},
-          success: function (data) {
+          data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            message: message,
+            chatbot_id: chatbotId,
+          },
+          success: onSuccess, // 使用回調函數處理成功情況
+          error: onError, // 使用回調函數處理錯誤情況
+        });
+      }
+
+      // 處理發送消息的功能
+      function sendMessage(message) {
+        const chatContainer = $(".chat-content");
+        const now = new Date();
+        const userMessage = appendMessage(
+          "user",
+          '{% static "images/user/1.jpg" %}',
+          formattedTime(now),
+          message
+        );
+
+        chatContainer.append(userMessage);
+        chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
+        // 延迟 0.5 秒后滚动到聊天容器的底部
+        setTimeout(function () {
+          chatContainer.append(loadingMessage);
+          chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
+        }, 1000);
+
+        // 顯示加載動畫
+
+        sendChatRequest(
+          message,
+          function (data) {
+            $("#loadingMessage").remove();
+            const createdAt = new Date(data.data.created_at);
             const botMessage = appendMessage(
-              "left",
+              data.data.role,
               '{% static "images/user/05.jpg" %}',
-              "6:48",
-              data.message
+              formattedTime(createdAt),
+              data.data.content
             );
 
             chatContainer.append(botMessage);
             chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
           },
-          error: function (xhr, status, error) {
-            console.error("AJAX Error:", error);
-          },
-        });
+          function (xhr, status, error) {
+            alert("AJAX 錯誤: " + error);
+            console.error("AJAX 錯誤:", error);
+          }
+        );
       }
 
       $("form").submit(function (e) {

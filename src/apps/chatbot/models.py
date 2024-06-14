@@ -1,17 +1,17 @@
 # Correct import if User is your model
+from django.utils import timezone
 from apps.account.models import Account
-from apps.chatbot.backend import create_threads_id
 from django.db import models
 
 
 class ChatbotManager(models.Manager):
     """聊天機器人的管理器，封裝與資料庫的交互邏輯"""
 
-    def get_or_create_by_account_and_chapter(self, account, chapter):
+    def get_or_create_by_account_and_chapter(self, account, chapter, now_thread):
         chatbot, created = super().get_or_create(
             account=account, chapter=chapter)
         if created:
-            chatbot.now_thread = create_threads_id()
+            chatbot.now_thread = now_thread
             chatbot.save()
         return chatbot
 
@@ -87,17 +87,48 @@ class Chatbot(models.Model):
 # 訊息內容
 # 標籤
 # 訊息時間戳
+class ChatMessageManager(models.Manager):
+    def create_message(self, chatbot, created_at, role=None, content=None, tag=None, thread_id=None):
+        """建立一條新的聊天訊息"""
+        message = self.model(
+            chatbot=chatbot,
+            role=role,
+            content=content,
+            tag=tag,
+            created_at=created_at,
+            thread_id=thread_id
+        )
+        message.save(using=self._db)
+        return message
+
+    def find_by_thread_id(self, thread_id):
+        """根據線程 ID 查找訊息，並按創建時間排序"""
+        return self.filter(thread_id=thread_id).order_by('created_at')
+
+    def find_by_chatbot(self, chatbot):
+        """根據聊天機器人查找訊息"""
+        return self.filter(chatbot=chatbot)
+
+    def find_by_role(self, role):
+        """根據角色查找訊息"""
+        return self.filter(role=role)
+
+    def find_by_tag(self, tag):
+        """根據標籤查找訊息"""
+        return self.filter(tag=tag)
+
 
 class ChatMessage(models.Model):
     chatbot = models.ForeignKey(
         Chatbot, on_delete=models.CASCADE, verbose_name="聊天機器人")
-    role = models.CharField(
-        max_length=10, verbose_name="角色")  # 信息發送者的角色
-    content = models.TextField(verbose_name="訊息內容")  # 信息內容
-    tag = models.CharField(
-        max_length=20, verbose_name="標籤")  # 信息的標籤
-    timestamp = models.DateTimeField(
-        auto_now_add=True, verbose_name="訊息時間戳")  # 信息的時間戳
+    role = models.CharField(max_length=10, verbose_name="角色", null=True, blank=True)  # 信息發送者的角色
+    content = models.TextField(verbose_name="訊息內容", null=True, blank=True)  # 信息內容
+    tag = models.CharField(max_length=20, verbose_name="標籤", null=True, blank=True)  # 信息的標籤
+    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="訊息時間戳")  # 信息的時間戳
+    created_at = models.DateTimeField(default=timezone.now,verbose_name="創建時間")  # 新增創建時間(測試與timestamp的差異)
+    thread_id = models.CharField(max_length=50, verbose_name="線程 ID", null=True, blank=True)  # 新增線程 ID
+
+    objects = ChatMessageManager()
 
     class Meta:
         verbose_name = "聊天訊息"
