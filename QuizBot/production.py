@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles"
+    "django.contrib.staticfiles",
     "rest_framework",
     "apps.management_sample",
     "apps.home.apps.HomeConfig",
