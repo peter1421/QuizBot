@@ -37,3 +37,30 @@ function clearCookies() {
 function formattedTime(date) {
   return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
 }
+
+function escapeHtml(unsafe) {
+  if (!unsafe) return ""; // 如果輸入為 null 或 undefined，返回空字串
+  let safeOutput=DOMPurify.sanitize(unsafe, {ALLOWED_TAGS: ['br', 'b', 'i', 'em', 'strong']});
+  // 轉義 HTML 特殊字符
+  // let safeOutput = unsafe
+  //     .replace(/&/g, "&amp;")
+  //     .replace(/</g, "&lt;")
+  //     .replace(/>/g, "&gt;")
+  //     .replace(/"/g, "&quot;")
+  //     .replace(/'/g, "&#039;");
+
+  // // 進一步處理以移除或禁用危險的 URL 協議（如 JavaScript:）
+  // safeOutput = safeOutput.replace(/javascript:/gi, "javascript&#58;");
+
+  // // 清理危險的 CSS 代碼（例如 expression、url 使用 JavaScript）
+  // safeOutput = safeOutput.replace(/expression\((.*?)\)/gi, ""); // 清除 CSS 表達式
+  // safeOutput = safeOutput.replace(/url\((.*?)\)/gi, (match) => {
+  //     // 如果 URL 中包含不安全的協議，則移除整個 URL()
+  //     if (/javascript:/gi.test(match)) {
+  //         return "";
+  //     }
+  //     return match;
+  // });
+
+  return safeOutput;
+}
