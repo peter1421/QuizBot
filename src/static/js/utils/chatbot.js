@@ -35,6 +35,14 @@ function setUser(imgSrc, time) {
       </div>
       `;
 }
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "")
+    .replace(/</g, "")
+    .replace(/>/g, "")
+    .replace(/"/g, "")
+    .replace(/'/g, "");
+}
 function appendMessage(
   side,
   imgSrc,
@@ -43,10 +51,19 @@ function appendMessage(
   imagesUrl = null
 ) {
   const sideClass = side === "assistant" ? " chat-left" : ""; // 根據發送方決定消息框位置
+  const chatMessageClass =
+    side === "assistant"
+      ? " chat-message btn btn-outline-primary mt-2"
+      : "chat-message";
   const chatUser = setUser(imgSrc, time);
+  let sendMessageText = messageText;
+  let voiceText = "";
   let chatContent = "";
   if (messageText) {
-    chatContent += setMessage(messageText);
+    if (side === "assistant") {
+      sendMessageText += "🔉";
+    }
+    chatContent += setMessage(sendMessageText);
   }
   if (imagesUrl) {
     chatContent += setImage(imagesUrl);
@@ -55,24 +72,27 @@ function appendMessage(
       <div class="chat${sideClass}">
         ${chatUser}
         <div class="chat-detail">
-          <div class="chat-message">
-            ${chatContent}
+            <div class="${chatMessageClass}" onclick="speak('${escapeHtml(messageText)}')">
+                ${chatContent}
           </div>
         </div>
       </div>`;
 }
-function speak(text) {
+function speak(text, lang = "zh-TW") {
   // 創建一個新的 SpeechSynthesisUtterance 實例
   var utterance = new SpeechSynthesisUtterance(text);
 
-  // 選擇語音。這是可選的，也可以留空使用系統預設語音
+  // 選擇語音。這裡使用函數參數指定的語言
   var voices = window.speechSynthesis.getVoices();
-  utterance.voice = voices.filter(function (voice) {
-    return voice.lang === "zh-TW";
-  })[0]; // 選擇特定語言的語音，這裡以繁體中文為例
+  utterance.voice = voices.find((voice) => voice.lang === lang);
+
+  // 如果沒有找到指定語言的語音，可以選擇第一個可用的語音
+  if (!utterance.voice) {
+    utterance.voice = voices[0];
+  }
 
   // 設置其他屬性，如語速和音調
-  utterance.rate = 1; // 語速，範圍從0.1至10，預設為1
+  utterance.rate = 2; // 語速，範圍從0.1至10，預設為1
   utterance.pitch = 1; // 音調，範圍從0至2，預設為1
 
   // 將utterance傳給speechSynthesis介面
