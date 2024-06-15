@@ -11,7 +11,7 @@
             <div class="chat-data-block">
               <div class="row">
                 <div class="col-lg-4 chat scroller">
-                  <div class="chat-sidebar-channel scroller mt-4 pl-3">
+                  <div class="chat-sidebar-channel scroller mt-4">
                     <ul
                       class="nav nav-pills mb-3 nav-fill"
                       id="pills-tab-1"
@@ -28,7 +28,7 @@
                           aria-selected="false"
                           _msttexthash="2136498"
                           _msthash="165"
-                          >家</a
+                          >提交程式碼</a
                         >
                       </li>
                       <li class="nav-item">
@@ -42,7 +42,7 @@
                           aria-selected="true"
                           _msttexthash="5859750"
                           _msthash="166"
-                          >輪廓</a
+                          >程式碼評分</a
                         >
                       </li>
                       <li class="nav-item">
@@ -56,7 +56,7 @@
                           aria-selected="false"
                           _msttexthash="6357741"
                           _msthash="167"
-                          >聯繫</a
+                          >其他評分</a
                         >
                       </li>
                     </ul>
@@ -67,13 +67,8 @@
                         role="tabpanel"
                         aria-labelledby="pills-home-tab-fill"
                       >
-                        <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s,
-                          when an unknown printer took a galley of type and
-                          scrambled it to make a type specimen book.
-                        </p>
+                        <pre><code class="language-python" id="code-container">
+                      </code></pre>
                       </div>
                       <div
                         class="tab-pane show active"
@@ -81,13 +76,14 @@
                         role="tabpanel"
                         aria-labelledby="pills-profile-tab-fill"
                       >
-                        <pre><code class="language-python">
-def say_hello():
-    for i in range(5):
-        print("Hello, world!")
-
-say_hello()
-                            </code></pre>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            {% include 'client/dashboard/python_dashboard/code_rating.html' %}
+                          </div>
+                          <div class="col-sm-12">
+                            {% include 'client/dashboard/python_dashboard/radar_multiple.html' %}
+                          </div>
+                        </div>
                       </div>
                       <div
                         class="tab-pane fade"
@@ -95,13 +91,7 @@ say_hello()
                         role="tabpanel"
                         aria-labelledby="pills-contact-tab-fill"
                       >
-                        <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s,
-                          when an unknown printer took a galley of type and
-                          scrambled it to make a type specimen book.
-                        </p>
+                        <p>聯繫</p>
                       </div>
                     </div>
                   </div>
@@ -282,13 +272,32 @@ say_hello()
   </div>
   <script>
     $(document).ready(function () {
-      initMessages();
-      hljs.initHighlighting.called = false;
-      hljs.initHighlighting();
-      hljs.highlightAll();
-      hljs.initLineNumbersOnLoad();
-      hljs.addPlugin(new CopyButtonPlugin());
+      init();
+
       //https://ppcode.net/blog/zh-tw/post/implement-syntax-highlighting-one-click-copy-button-using-highlight-js
+      function init() {
+        loadCode();
+        initHljs();
+        const chatbotId = $("#chatbotId").val();
+        fetchAndDisplayMessages(chatbotId);
+        setRocognition();
+      }
+      function initHljs() {
+        hljs.initHighlighting.called = false;
+        hljs.initHighlighting();
+        hljs.highlightAll();
+        hljs.initLineNumbersOnLoad();
+        hljs.addPlugin(new CopyButtonPlugin());
+      }
+      function loadCode() {
+        var hardcodedCode = `
+def say_hello():
+    for i in range(5):
+        print("Hello, world
+say_hello()
+            `;
+        $("#code-container").text(hardcodedCode);
+      }
       function setRocognition() {
         // 檢查瀏覽器是否支持SpeechRecognition API
         window.SpeechRecognition =
@@ -338,11 +347,7 @@ say_hello()
       function formattedTime(date) {
         return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
       }
-      function initMessages() {
-        const chatbotId = $("#chatbotId").val();
-        fetchAndDisplayMessages(chatbotId);
-        setRocognition();
-      }
+
       function fetchAndDisplayMessages(chatbotId) {
         $.ajax({
           url: "{% url 'api_get_message_by_chatbot_id' %}",
