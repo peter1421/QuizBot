@@ -14,7 +14,7 @@ function selectCardByWeight(cards, totalWeight) {
 }
 
 function generateMessageText(card) {
-  return `🔮 抽卡結果 🔮<br><strong>本日抽卡：</strong>${card.luck}<br><strong>說明：</strong>${card.fortune}`;
+  return `${card.rarity}<br><strong>說明：</strong>${card.fortune}`;
 }
 function appendMessages(imageMessage, textMessage) {
   return `<div id="loadingMessage">${imageMessage}${textMessage}</div>`;
@@ -35,14 +35,7 @@ function setUser(imgSrc, time) {
       </div>
       `;
 }
-function escapeHtml(unsafe) {
-  return unsafe
-    .replace(/&/g, "")
-    .replace(/</g, "")
-    .replace(/>/g, "")
-    .replace(/"/g, "")
-    .replace(/'/g, "");
-}
+
 function appendMessage(
   side,
   imgSrc,
@@ -56,6 +49,7 @@ function appendMessage(
       ? " chat-message btn btn-outline-primary mt-2"
       : "chat-message";
   const chatUser = setUser(imgSrc, time);
+  messageText = escapeHtml(messageText);
   let sendMessageText = messageText;
   let voiceText = "";
   let chatContent = "";
@@ -72,7 +66,7 @@ function appendMessage(
       <div class="chat${sideClass}">
         ${chatUser}
         <div class="chat-detail">
-            <div class="${chatMessageClass}" onclick="speak('${escapeHtml(messageText)}')">
+            <div class="${chatMessageClass}" onclick="speak('${messageText}')">
                 ${chatContent}
           </div>
         </div>

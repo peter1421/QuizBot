@@ -104,7 +104,7 @@
                             <div class="row">
                               <div class="col-6 col-md-6 title">Language:</div>
                               <div class="col-6 col-md-6 text-right">
-                                Engliah
+                                English
                               </div>
                             </div>
                           </div>
@@ -161,19 +161,18 @@
                     >
                       <div class="chat-attagement d-flex">
                         <a href="javascript:void();"
-                          ><i class="fa fa-smile-o pr-3" aria-hidden="true"></i
-                        ></a>
-                        <a href="javascript:void();"
                           ><i
-                            class="fa fa-paperclip pr-3"
+                            class="fa fa-microphone pr-3"
+                            id="trigger"
                             aria-hidden="true"
-                          ></i
-                        ></a>
+                          ></i>
+                        </a>
                       </div>
 
                       <input
                         type="text"
                         class="form-control mr-3"
+                        id="target"
                         placeholder="請輸入內容"
                       />
                       <button
@@ -200,6 +199,50 @@
     $(document).ready(function () {
       initMessages();
 
+      function setRocognition() {
+        // 檢查瀏覽器是否支持SpeechRecognition API
+        window.SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (typeof window.SpeechRecognition === "undefined") {
+          alert("您的瀏覽器不支持語音識別功能。");
+        } else {
+          const recognition = new SpeechRecognition();
+          recognition.lang = "zh-TW"; // 設定語言
+          recognition.interimResults = false; // 是否返回臨時結果
+          let isRecording = false;
+
+          recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript; // 獲取識別結果
+            $("#target").val(transcript); // 將結果填入輸入框
+            toggleRecording(); // 結束後切換icon
+          };
+
+          recognition.onerror = function (event) {
+            console.error("語音識別錯誤:", event.error);
+            toggleRecording(); // 發生錯誤時切換icon
+          };
+
+          $("#trigger").on("click", function () {
+            if (isRecording) {
+              recognition.stop(); // 停止識別
+              toggleRecording(); // 切換icon
+            } else {
+              recognition.start(); // 開始識別
+              toggleRecording(); // 切換icon
+            }
+          });
+
+          function toggleRecording() {
+            isRecording = !isRecording;
+            if (isRecording) {
+              $("#trigger").removeClass("fa-microphone").addClass("fa-stop");
+            } else {
+              $("#trigger").removeClass("fa-stop").addClass("fa-microphone");
+            }
+          }
+        }
+      }
       // 添加消息到聊天界面
       // 格式化時間為 HH:MM 格式
       function formattedTime(date) {
@@ -208,6 +251,7 @@
       function initMessages() {
         const chatbotId = $("#chatbotId").val();
         fetchAndDisplayMessages(chatbotId);
+        setRocognition();
       }
       function fetchAndDisplayMessages(chatbotId) {
         $.ajax({
