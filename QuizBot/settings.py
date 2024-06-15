@@ -59,6 +59,11 @@ INSTALLED_APPS = [
 
     "apps.chatbot.apps.ChatbotConfig",
     "apps.chatbot.client.apps.ClientChatbotConfig",
+
+    "apps.dashboard.python_dashboard.client.apps.ClientPythonDashboardConfig",
+    "apps.dashboard.python_dashboard.apps.PythonDashboardConfig",
+
+    
 ]
 
 MIDDLEWARE = [

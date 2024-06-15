@@ -46,4 +46,6 @@ urlpatterns = [
     path("client/chapter/", include("apps.chapter.client.urls")),
     # path("admin/chapter/", include("apps.chapter.admin.urls")),
 
+    path("client/dashboard/python_dashboard/", include("apps.dashboard.python_dashboard.client.urls")),
+
 ]

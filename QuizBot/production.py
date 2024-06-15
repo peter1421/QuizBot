@@ -28,8 +28,8 @@ sys.path.insert(0, os.path.join(BASE_DIR, "src"))
 SECRET_KEY = "django-insecure-gkcj*#5-$1uu@mqqtb+gi0fu0^jd5$%p1(17wmb6-krw1=m+v&"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 # CSRF_TRUSTED_ORIGINS = ['*']
