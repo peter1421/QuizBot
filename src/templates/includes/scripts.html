@@ -3,7 +3,11 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-<script src="{% static 'js/utils.js' %}"></script>
+{% comment %} 專案本身會用到的JS {% endcomment %}
+<script src="{% static 'js/utils/utils.js' %}"></script>
+<script src="{% static 'js/utils/chatbot.js' %}"></script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lunar-javascript/1.6.12/lunar.min.js"></script>
 
