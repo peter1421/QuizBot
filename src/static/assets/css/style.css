@@ -823,7 +823,7 @@ span.avatar-status { position: absolute; bottom: -5px; top: auto; left: auto; ri
 .nav-pills li a.active { color: #0084ff; background-color: #e5f2ff; }
 .iq-chat-ui li:last-child a { border: none; }
 .iq-chat-ui li:nth-child(2) a, .iq-chat-ui li:nth-child(6) a { border: none; }
-.chat-sidebar-channel { overflow-y: scroll; overflow-x: hidden; /*height: 450px;*/ height: calc(100vh - 19rem); margin-bottom: 15px; }
+.chat-sidebar-channel { overflow-y: scroll; overflow-x: hidden; /*height: 450px;*/ height: calc(100vh - 8rem); margin-bottom: 15px; }
 .chat-data { background: url(../images/page-img/100.jpg) no-repeat scroll center center; background-size: cover; }
 .chat-header-icons .dropdown-toggle:empty::after { display: none; }
 .chat-header-icons > a > i, .chat-header-icons > span  > i { width: 40px; background: #e5f2ff; height: 40px; font-size: 20px; margin: 0 5px 0 0; color: #0084ff; display: inline-block; text-align: center; line-height: 40px; border-radius: 5px; cursor: pointer; }
