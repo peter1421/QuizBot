@@ -97,6 +97,28 @@ body {
   text-align: left;
   background-color: #F8F7F7; }
 
+pre {
+    background-color: #ff0000;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+    line-height: 1.5;
+}
+
+code.hljs {
+  padding-left: 10px !important;
+  
+}
+.hljs-ln-numbers {
+  position: absolute;
+  left: 0;
+  width: 10px; /* 調整行號列的寬度 */
+  overflow: hidden;
+  text-align: right;
+  color: #999;
+  text-shadow: none;
+  background-color: #f0f0f0;
+}
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important; }
 

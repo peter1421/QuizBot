@@ -10,14 +10,100 @@
           <div class="iq-card-body chat-page p-0">
             <div class="chat-data-block">
               <div class="row">
-                <div class="col-lg-4 chat-data-left scroller">
+                <div class="col-lg-4 chat scroller">
                   <div class="chat-sidebar-channel scroller mt-4 pl-3">
-                    <h5 class="mb-0">
-                      {{chatbot.account.username}}-{{chatbot.chapter.title}}
-                    </h5>
-                    <h5 class="mb-0">
-                      {{chatbot.account.username}}-{{chatbot.chapter.title}}
-                    </h5>
+                    <ul
+                      class="nav nav-pills mb-3 nav-fill"
+                      id="pills-tab-1"
+                      role="tablist"
+                    >
+                      <li class="nav-item">
+                        <a
+                          class="nav-link"
+                          id="pills-home-tab-fill"
+                          data-toggle="pill"
+                          href="#pills-home-fill"
+                          role="tab"
+                          aria-controls="pills-home"
+                          aria-selected="false"
+                          _msttexthash="2136498"
+                          _msthash="165"
+                          >家</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link active"
+                          id="pills-profile-tab-fill"
+                          data-toggle="pill"
+                          href="#pills-profile-fill"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="true"
+                          _msttexthash="5859750"
+                          _msthash="166"
+                          >輪廓</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link"
+                          id="pills-contact-tab-fill"
+                          data-toggle="pill"
+                          href="#pills-contact-fill"
+                          role="tab"
+                          aria-controls="pills-contact"
+                          aria-selected="false"
+                          _msttexthash="6357741"
+                          _msthash="167"
+                          >聯繫</a
+                        >
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent-1">
+                      <div
+                        class="tab-pane fade"
+                        id="pills-home-fill"
+                        role="tabpanel"
+                        aria-labelledby="pills-home-tab-fill"
+                      >
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s,
+                          when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.
+                        </p>
+                      </div>
+                      <div
+                        class="tab-pane show active"
+                        id="pills-profile-fill"
+                        role="tabpanel"
+                        aria-labelledby="pills-profile-tab-fill"
+                      >
+                        <pre><code class="language-python">
+def say_hello():
+    for i in range(5):
+        print("Hello, world!")
+
+say_hello()
+                            </code></pre>
+                      </div>
+                      <div
+                        class="tab-pane fade"
+                        id="pills-contact-fill"
+                        role="tabpanel"
+                        aria-labelledby="pills-contact-tab-fill"
+                      >
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and
+                          typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s,
+                          when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-8 chat-data p-0 chat-data-right">
@@ -195,10 +281,14 @@
     </div>
   </div>
   <script>
-    //TODO:整理
     $(document).ready(function () {
       initMessages();
-
+      hljs.initHighlighting.called = false;
+      hljs.initHighlighting();
+      hljs.highlightAll();
+      hljs.initLineNumbersOnLoad();
+      hljs.addPlugin(new CopyButtonPlugin());
+      //https://ppcode.net/blog/zh-tw/post/implement-syntax-highlighting-one-click-copy-button-using-highlight-js
       function setRocognition() {
         // 檢查瀏覽器是否支持SpeechRecognition API
         window.SpeechRecognition =
