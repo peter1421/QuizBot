@@ -224,15 +224,15 @@
       series: [
         {
           name: "助教評分",
-          data: [44, 55, 57, 56, 61, 58],
+          data: [4, 5, 3, 4, 1, 2],
         },
         {
           name: "機器人評分",
-          data: [76, 85, 1101, 98, 87, 105],
+          data: [2, 3, 4, 2, 2, 2],
         },
         {
           name: "同儕評分",
-          data: [35, 41, 36, 26, 45, 48],
+          data: [4, 4, 3, 1, 4, 1],
         },
       ],
       xaxis: {
@@ -247,7 +247,7 @@
       },
       yaxis: {
         title: {
-          text: "$ (thousands??????)",
+          text: "分數1",
         },
       },
       fill: {
@@ -256,7 +256,7 @@
       tooltip: {
         y: {
           formatter: function (e) {
-            return "$ " + e + " thousands?????";
+            return "$ " + e + "  分";
           },
         },
       },

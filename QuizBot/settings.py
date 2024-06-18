@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     "apps.dashboard.python_dashboard.client.apps.ClientPythonDashboardConfig",
     "apps.dashboard.python_dashboard.apps.PythonDashboardConfig",
 
-    
+
 ]
 
 MIDDLEWARE = [
@@ -233,7 +233,7 @@ for log_file in ["django.log", "request.log"]:
 CHATBOT_CONFIGS = {
     1: {
         "name": "Python機器人",
-        "assistant_id": "asst_UELrrm9ZEgiY2LjnROnWP3NJ",
+        "assistant_id": "asst_JnBatr0bemWfhy53kX1L7m8y",
     },
 }
 API_KEY = API_KEY

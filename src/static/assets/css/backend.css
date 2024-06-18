@@ -98,19 +98,17 @@ body {
   background-color: #F8F7F7; }
 
 pre {
-    background-color: #ff0000;
+    background-color: #999;
     padding: 10px;
     border-radius: 5px;
     overflow: auto;
     line-height: 1.5;
 }
-
-code.hljs {
+.hljs-ln td{
   padding-left: 10px !important;
-  
 }
+
 .hljs-ln-numbers {
-  position: absolute;
   left: 0;
   width: 10px; /* 調整行號列的寬度 */
   overflow: hidden;

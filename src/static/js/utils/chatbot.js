@@ -14,7 +14,7 @@ function selectCardByWeight(cards, totalWeight) {
 }
 
 function generateMessageText(card) {
-  return `${card.rarity}<br><strong>說明：</strong>${card.fortune}`;
+  return `${card.rarity}<br><strong>提示：</strong>${card.fortune}`;
 }
 function appendMessages(imageMessage, textMessage) {
   return `<div id="loadingMessage">${imageMessage}${textMessage}</div>`;
