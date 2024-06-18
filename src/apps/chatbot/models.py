@@ -1,4 +1,5 @@
 # Correct import if User is your model
+from django.forms import JSONField
 from django.utils import timezone
 from apps.account.models import Account
 from django.db import models
@@ -6,7 +7,6 @@ from django.db import models
 
 class ChatbotManager(models.Manager):
     """聊天機器人的管理器，封裝與資料庫的交互邏輯"""
-
     def get_or_create_by_account_and_chapter(self, account, chapter, now_thread):
         chatbot, created = super().get_or_create(
             account=account, chapter=chapter)
@@ -65,7 +65,6 @@ class Chatbot(models.Model):
         "chapter.Chapter", on_delete=models.CASCADE, verbose_name="章節")
     now_thread = models.CharField(
         max_length=200, verbose_name="目前聊天序列")  # 目前處理的執行緒或過程的標識符
-
     objects = ChatbotManager()
 
     class Meta:

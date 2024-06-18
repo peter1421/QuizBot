@@ -52,11 +52,16 @@ INSTALLED_APPS = [
     "apps.account.client.apps.ClientAccountConfig",
 
     "apps.chapter.apps.ChapterConfig",
-    "apps.chapter.admin.apps.AdminChapterConfig",
+    # "apps.chapter.admin.apps.AdminChapterConfig",
     "apps.chapter.client.apps.ClientChapterConfig",
 
     "apps.chatbot.apps.ChatbotConfig",
-    "apps.chatbot.client.apps.ClientChatbotConfig",
+    "apps.chatbot.python.apps.ChatbotPythonConfig",  # 新增的應用程式
+    "apps.chatbot.python.client.apps.ClientChatbotPythonConfig",  # 新增的應用程式
+
+    "apps.dashboard.python_dashboard.client.apps.ClientPythonDashboardConfig",
+    "apps.dashboard.python_dashboard.apps.PythonDashboardConfig",
+
 ]
 print("BASE_DIR:", BASE_DIR)
 print("INSTALLED_APPS:", INSTALLED_APPS)

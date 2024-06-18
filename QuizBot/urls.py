@@ -41,7 +41,7 @@ urlpatterns = [
     # client
     path("client/home/", include("apps.home.client.urls")),
     path("client/account/", include("apps.account.client.urls")),
-    path("client/chatbot/", include("apps.chatbot.client.urls")),
+    path("client/chatbot/python", include("apps.chatbot.python.client.urls")),
 
     path("client/chapter/", include("apps.chapter.client.urls")),
     # path("admin/chapter/", include("apps.chapter.admin.urls")),
