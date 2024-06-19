@@ -1,9 +1,7 @@
 # urls.py
 
+from apps.chatbot.python.client.views import api_chat_with_bot, api_get_message_by_chatbot_id, index
 from django.urls import path
-
-from apps.chatbot.python.client.views import index,api_chat_with_bot, api_get_message_by_chatbot_id
-
 
 urlpatterns = [
     path("index/<str:chapter_id>/", index, name="client_chatbot_index_with_chapter"),
