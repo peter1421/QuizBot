@@ -62,11 +62,12 @@ function appendMessage(
   if (imagesUrl) {
     chatContent += setImage(imagesUrl);
   }
+  voiceText = processVoiceText(sendMessageText)
   return `
       <div class="chat${sideClass}">
         ${chatUser}
         <div class="chat-detail">
-            <div class="${chatMessageClass}" onclick="speak('${messageText}')">
+            <div class="${chatMessageClass}" onclick="speak('${voiceText}')">
                 ${chatContent}
           </div>
         </div>

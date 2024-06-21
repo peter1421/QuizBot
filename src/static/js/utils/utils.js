@@ -64,3 +64,35 @@ function escapeHtml(unsafe) {
 
   return safeOutput;
 }
+function processVoiceText(rawText) {
+  if (!rawText) return "";
+
+  // 使用DOMPurify来消除潜在的XSS内容，并去除HTML标签，仅留下纯文本
+  let text = DOMPurify.sanitize(rawText, { ALLOWED_TAGS: [] });
+
+  // 替换直接的单引号和双引号
+  text = text.replace(/["']/g, "");
+  
+  // 替换常见的HTML实体和符号
+  text = text
+      .replace(/&amp;/g, "和")
+      .replace(/&lt;/g, "小於")
+      .replace(/&gt;/g, "大於")
+      .replace(/&quot;/g, "")
+      .replace(/&#039;/g, "");
+
+  // 替换常见的缩写和符号以便语音更自然
+  text = text
+      .replace(/e\.g\./gi, "例如")
+      .replace(/i\.e\./gi, "即")
+      .replace(/Dr\./gi, "博士")
+      .replace(/Mr\./gi, "先生")
+      .replace(/Mrs\./gi, "女士")
+      .replace(/\$/g, "美元")
+      .replace(/%/g, "百分之");
+
+  // 适用于JavaScript模板字符串的反引号转义
+  text = text.replace(/`/g, "\\`");
+
+  return text;
+}
