@@ -73,6 +73,7 @@ function appendMessage(
       </div>`;
 }
 function speak(text, lang = "zh-TW") {
+  console.log("speak", text, lang);
   // 創建一個新的 SpeechSynthesisUtterance 實例
   var utterance = new SpeechSynthesisUtterance(text);
 

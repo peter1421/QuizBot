@@ -46,6 +46,8 @@ def api_chat_with_bot(request):
         chatbot_id = request.POST.get('chatbot_id')
         chatbot=PythonChatbot.objects.find_chatbot_by_id(chatbot_id)
         chatbot_helper = PythonChatbotHelper(chatbot)
+        chatbot_helper.get_chatbot_asscistant()
+        
         chatbot_response = chatbot_helper.get_chatbot_response(user_message)
         serializer = PythonChatMessageSerializer(chatbot_response)
         return JsonResponse({'data': serializer.data})

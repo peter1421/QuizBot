@@ -2,6 +2,7 @@ import time
 from datetime import datetime
 
 import pytz
+from apps.chapter.models import Chapter
 from apps.chatbot.models import ChatMessage
 from django.conf import settings
 from openai import OpenAI
@@ -19,7 +20,12 @@ class ChatbotHelper:
             ],
         )
         return thread.id
-
+    def get_chatbot_asscistant(self):
+        chapter_id = self.chatbot.chapter.id
+        asscistant_id = Chapter.objects.get_first_assistant_id_of_chapter(chapter_id)
+        print(f"asscistant_id:{asscistant_id}")
+        return asscistant_id
+    
     def find_assistant_by_id(self, chapter_id):
         chapter_config = settings.CHATBOT_CONFIGS.get(chapter_id)
         if not chapter_config:
