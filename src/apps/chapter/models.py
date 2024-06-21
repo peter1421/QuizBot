@@ -2,6 +2,12 @@ from django.db import models
 
 
 class ChapterManager(models.Manager):
+    def get_first_assistant_id(self, chapter_id):
+        chapter = self.get(id=chapter_id)
+        if chapter.assistant_ids:
+            return chapter.assistant_ids[0]
+        return None
+
     def create_chapter(self, number, title, content):
         chapter = self.create(number=number, title=title, content=content)
         return chapter
@@ -23,19 +29,12 @@ class ChapterManager(models.Manager):
         chapter = self.get(id=id)
         chapter.delete()
 
-    # 新增方法來獲取指定章節的第一個助理ID
-    def get_first_assistant_id_of_chapter(self, chapter_id):
-        chapter = self.get_chapter(chapter_id)
-        if chapter.assistant_ids:
-            return chapter.assistant_ids[0]
-        return None  # 章節沒有任何助理ID時返回None
 
 class Chapter(models.Model):
     number = models.IntegerField()
     title = models.CharField(max_length=100)
     content = models.TextField()
-    assistant_ids = models.JSONField(default=list, verbose_name="助理ID")
-
+    assistant_ids = models.JSONField(default=list, blank=True)
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
 
@@ -46,8 +45,3 @@ class Chapter(models.Model):
     objects = ChapterManager()
     def __str__(self):
         return self.title
-    
-    def get_first_assistant_id(self):
-        if self.assistant_ids:
-            return self.assistant_ids[0]
-        return None  # 或者返回一個明確的值或錯誤信息，如果列表是空的

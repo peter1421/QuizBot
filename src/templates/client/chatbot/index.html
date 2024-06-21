@@ -22,7 +22,7 @@
                           class="nav-link"
                           id="pills-home-tab-fill"
                           data-toggle="pill"
-                          href="#pills-home-fill"
+                          href="#code-container"
                           role="tab"
                           aria-controls="pills-home"
                           aria-selected="false"
@@ -63,11 +63,13 @@
                     <div class="tab-content" id="pills-tabContent-1">
                       <div
                         class="tab-pane fade"
-                        id="pills-home-fill"
+                        id="code-container"
                         role="tabpanel"
                         aria-labelledby="pills-home-tab-fill"
                       >
+                      {% comment %} {% include 'client/chatbot/code.html' %} {% endcomment %}
                         <pre><code class="language-python" id="code-container">
+                          {{ chatbot.formatted_code|safe }}
                       </code></pre>
                       </div>
                       <div
@@ -276,7 +278,7 @@
 
       //https://ppcode.net/blog/zh-tw/post/implement-syntax-highlighting-one-click-copy-button-using-highlight-js
       function init() {
-        loadCode();
+        //loadCode();
         initHljs();
         const chatbotId = $("#chatbotId").val();
         fetchAndDisplayMessages(chatbotId);
@@ -291,97 +293,11 @@
       }
       function loadCode() {
         var hardcodedCode = `
-ACC = {}
-print("THE FIRST TIME YOU USE THIS ! PLEASE CREATE ACCOUNT FIRST !!!!!")
-try :
-    Q = input("Type 0 if you want to create/add Account! \n     1 if you want to deposit money! \n     2 if you want to withdraw money! \n     3 if you want to transfer money! \n     4 close! BYEBYE \n -------->   ")
-    print("========================================================" , 
-          "\nAccount info :\n" , "-------------------------------------------------------\n" , "ACC" , ACC , 
-          "\n========================================================")
-
-
-    while (True) :
-
-        if Q == "0" :
-            print("Create new Account .....")
-            n = int(input("How many person's data you want to create ? "))
-
-            for i in range(1 , n + 1):
-                name = str(input("Please enter " + str(i) + " person's name : "))
-                if name in ACC :
-                    print("   !!!!! " , name , "ALREADY EXISTED !!!!!" )
-                else :
-                    A = int(input("How much money " + name + " want to save : "))
-                    ACC[name] = A
-                    i += 1
-
-
-
-        if  Q == "1" :
-            print("Deposit money ....." , "\n======================================================== ")
-            j = int(input("How many people wants to deposit money ? "))
-
-            for k in range(1 , j + 1):
-                name = str(input("Please enter " + str(k) + " person's name : "))
-                if name in ACC :
-                    S = int(input("How much money " + name + " want to deposit : "))
-                    print("----> " , name , " deposit : " , S , " dollars ")
-                    ACC[name] = ACC[name] + S
-                    k += 1
-                else :
-                    print("   ***** USER " , name , " DOES NOT EXIST ! PLEASE CREATE A NEW ACCOUNT ! ***** \n" )
-
-        if Q == "2" :
-            print("Withdraw money ....." , "\n======================================================== ")
-            e = int(input("How many people wants to withdraw money ? "))
-
-            for f in range(1 , e + 1):
-                name = str(input("Please enter " + str(f) + " person's name : "))
-                if name in ACC :
-                    W = int(input("How much money " + name + " want to withdraw : "))
-                    print("----> " , name , " withdraw : " , W , " dollars ")
-                    if (ACC[name] - W) >= 0 :
-                        ACC[name] = ACC[name] - W
-                        f += 1
-                    else :
-                        print("   !!!!! WITHDRAW FAILED !!!!!  \n    !!!!!" , name , " DOESN'T HAVE ENOUGH MONEY TO WITHDRAW !!!!! \n")
-                else :
-                    print("   !!!!! WITHDRAW FAILED !!!!!!  \n " , "   ***** USER " , name , " DOES NOT EXIST ! PLEASE CREATE A NEW ACCOUNT ! ***** \n")
-
-
-        if Q == "3" :
-            g = str(input("Who you want to transfer money from ? "))
-            if g in ACC :
-                h = str(input("Who you want to transfer money to ? "))
-                if h in ACC :   
-                    T = int(input("How much money " + g + " transfer to " + h + " ? "))
-                    print("----> Transferring " , T , "dollars from " + g + " to " + h + " .....")
-                    if (ACC[g] - T) >= 0 :
-                        ACC[g] = ACC[g] - T
-                        ACC[h] = ACC[h] + T 
-                    else :
-                        print("   !!!!! TRANSFER FAILED !!!!!  \n    !!!!! " , g , " DOESN'T HAVE ENOUGH MONEY TO TRANSFER !!!!! \n")
-                else :
-                    print("   !!!!! TRANSFER FAILED !!!!!!  \n " , "   ***** USER " , h , " DOES NOT EXIST ! PLEASE CREATE A NEW ACCOUNT ! ***** \n")
-            else :
-                print("   !!!!! TRANSFER FAILED !!!!!!  \n " , "   ***** USER " , g , " DOES NOT EXIST ! PLEASE CREATE A NEW ACCOUNT ! ***** \n")
-
-        if Q == "4" :
-            print("\nBYE BYE !!! SEE YOU NEXT TIME ~~\n")
-            print("========================================================" , 
-                  "\nAccount info :\n" , "-------------------------------------------------------\n" , "ACC" , ACC , 
-                 "\n________________________________________________________________________________________________________________")  
-            break
-
-        print("========================================================" , 
-              "\nAccount info :\n" , "-------------------------------------------------------\n" , "ACC" , ACC , 
-             "\n________________________________________________________________________________________________________________")
-
-        Q = input("Type 0 if you want to create/add Account! \n     1 if you want to deposit money! \n     2 if you want to withdraw money! \n     3 if you want to transfer money! \n     4 close! BYEBYE \n -------->   ")
-
-except :
-    print("   !!!!! INPUT ERROR !!!!! \n")
-    `;
+def say_hello():
+    for i in range(5):
+        print("Hello, world
+say_hello()
+            `;
         $("#code-container").text(hardcodedCode);
       }
       function setRocognition() {

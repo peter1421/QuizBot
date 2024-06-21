@@ -58,8 +58,7 @@ INSTALLED_APPS = [
     "apps.chapter.client.apps.ClientChapterConfig",
 
     "apps.chatbot.apps.ChatbotConfig",
-    "apps.chatbot.python.apps.ChatbotPythonConfig",  # 新增的應用程式
-    "apps.chatbot.python.client.apps.ClientChatbotPythonConfig",  # 新增的應用程式
+    "apps.chatbot.client.apps.ClientChatbotConfig",
 
     "apps.dashboard.python_dashboard.client.apps.ClientPythonDashboardConfig",
     "apps.dashboard.python_dashboard.apps.PythonDashboardConfig",

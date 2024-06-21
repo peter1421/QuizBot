@@ -1,12 +1,13 @@
 # Correct import if User is your model
-from django.forms import JSONField
-from django.utils import timezone
 from apps.account.models import Account
 from django.db import models
+from django.utils import timezone
+from django.utils.html import mark_safe
 
 
 class ChatbotManager(models.Manager):
     """聊天機器人的管理器，封裝與資料庫的交互邏輯"""
+
     def get_or_create_by_account_and_chapter(self, account, chapter, now_thread):
         chatbot, created = super().get_or_create(
             account=account, chapter=chapter)
@@ -65,6 +66,7 @@ class Chatbot(models.Model):
         "chapter.Chapter", on_delete=models.CASCADE, verbose_name="章節")
     now_thread = models.CharField(
         max_length=200, verbose_name="目前聊天序列")  # 目前處理的執行緒或過程的標識符
+    code = models.TextField(verbose_name="Python程式碼", blank=True, null=True)
     objects = ChatbotManager()
 
     class Meta:
@@ -78,6 +80,10 @@ class Chatbot(models.Model):
         now_thread = self.now_thread if self.now_thread is not None else "No thread"
         return f"Chatbot(account={account}, chapter={chapter}, now_thread={now_thread})"
 
+    def formatted_code(self):
+        """返回格式化的代码，用于在 HTML 中显示，同时避免 XSS 攻击"""
+        show_code = f"# Account ID: {self.account} 章節:{self.chapter}\n {self.code}"
+        return mark_safe('<pre><code class="language-python">' + show_code + '</code></pre>') if self.code else "No code"
 
 # Create your models here.
 # 訊息ID
