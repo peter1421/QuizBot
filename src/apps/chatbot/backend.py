@@ -1,11 +1,12 @@
 import time
 from datetime import datetime
-from django.conf import settings
+
+import pytz
 from apps.chapter.models import Chapter
 from apps.chatbot.models import ChatMessage
 from django.conf import settings
+from django.utils import timezone
 from openai import OpenAI
-import pytz
 
 # 全局初始化 OpenAI 客戶端
 client = OpenAI(api_key=settings.API_KEY)
@@ -89,14 +90,41 @@ def get_chatbot_response(user_input, chatbot):
     print(f"使用settings.API_KEY:{settings.API_KEY}")
     state = continue_conversation(user_input, chatbot)
     thread_id = chatbot.now_thread
+    chatbot_response=[]
     try:
         if state:
             messages = get_threads_message(thread_id)
-            chatbot_response = load_chat_message(messages, chatbot)
+            # chatbot_response = load_chat_message(messages, chatbot)
+            chatbot_response.append(load_chat_message(messages, chatbot))
+            t1=ChatMessage.objects.create(
+                chatbot=chatbot,
+                role="assistant",
+                content='測試多重回應',
+                tag="錯誤",
+                created_at=timezone.now(),
+                thread_id=thread_id
+            )
+            chatbot_response.append(t1)
         else:
-            chatbot_response = "對不起我不太清楚，請稍後再試，或是聯繫管理員。"
+            messages = "對不起我不太清楚，請稍後再試，或是聯繫管理員。"
+            chatbot_response = ChatMessage.objects.create(
+                chatbot=chatbot,
+                role="assistant",
+                content=messages,
+                tag="錯誤",
+                created_at=datetime.now(),
+                thread_id=thread_id
+            )
     except Exception as e:
-        chatbot_response = f"在獲取最新消息時發生錯誤：{str(e)}"
+        messages = f"在獲取最新消息時發生錯誤：{str(e)}"
+        chatbot_response = ChatMessage.objects.create(
+            chatbot=chatbot,
+            role="assistant",
+            content=messages,
+            tag="錯誤",
+            created_at=datetime.now(),
+            thread_id=thread_id
+        )
     return chatbot_response
 
 
@@ -105,7 +133,8 @@ def load_chat_message(messages, chatbot):
     latest_user_message = messages[1]
     latest_assistant_message = messages[0]
     create_chat_message(latest_user_message, chatbot)
-    latest_assistant_response=create_chat_message(latest_assistant_message, chatbot)
+    latest_assistant_response = create_chat_message(
+        latest_assistant_message, chatbot)
     return latest_assistant_response
 
 

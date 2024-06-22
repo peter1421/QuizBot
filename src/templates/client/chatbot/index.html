@@ -196,7 +196,11 @@
                         <a href="javascript:void();" class="chat-icon-video">
                           <i class="ri-vidicon-line"></i>
                         </a>
-                        <a href="javascript:void();" class="chat-icon-delete" id="updateThreadsButton">
+                        <a
+                          href="javascript:void();"
+                          class="chat-icon-delete"
+                          id="updateThreadsButton"
+                        >
                           <i class="ri-delete-bin-line"></i>
                         </a>
                         <span class="dropdown">
@@ -418,17 +422,20 @@ say_hello()
 
         sendChatRequest(
           message,
-          function (data) {
+          function (response) {
             $("#loadingMessage").remove();
-            const createdAt = new Date(data.data.created_at);
-            const botMessage = appendMessage(
-              data.data.role,
-              '{% static "images/user/05.jpg" %}',
-              formattedTime(createdAt),
-              (messageText = data.data.content)
-            );
-            speak(data.data.content);
-            chatContainer.append(botMessage);
+            // 确保是针对 response.data 数组使用 forEach
+            response.data.forEach(function(data) {
+              const createdAt = new Date(data.created_at);
+              const botMessage = appendMessage(
+                data.role,
+                '{% static "images/user/05.jpg" %}',  // 假设这是机器人的头像
+                formattedTime(createdAt),
+                data.content
+              );
+              speak(data.content);
+              chatContainer.append(botMessage);
+            });
             chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
           },
           function (xhr, status, error) {
@@ -510,34 +517,6 @@ say_hello()
             luck: "大凶",
             weight: 7, // 超級稀有，但带来的不是好运
           },
-          {
-            name: "迷失者",
-            rarity: "⭐⭐⭐",
-            fortune: "可能會感到迷茫和失落，建议今天避免重要决策。",
-            luck: "凶",
-            weight: 6,
-          },
-          {
-            name: "遺忘的誓言",
-            rarity: "⭐⭐⭐⭐",
-            fortune: "過去的承諾可能會造成今天的困擾，小心处理人际关系。",
-            luck: "小凶",
-            weight: 7,
-          },
-          {
-            name: "逆風行者",
-            rarity: "⭐⭐⭐⭐⭐",
-            fortune: "今日面臨逆境，需要额外的努力和耐心才能克服。",
-            luck: "凶",
-            weight: 4,
-          },
-          {
-            name: "幽谷行者",
-            rarity: "⭐⭐",
-            fortune: "可能會遇到意料之外的挑战，建议保持低调。",
-            luck: "中凶",
-            weight: 10,
-          },
         ];
       }
       function chooseRandomImage() {
@@ -584,6 +563,7 @@ say_hello()
           success: function (response) {
             console.log("Success:", response);
             alert("Threads updated: " + response.data);
+            window.location.reload();
           },
           error: function (xhr, status, error) {
             console.log("Error:", xhr.responseText);

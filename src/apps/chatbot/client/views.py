@@ -41,15 +41,19 @@ def index_ui(request):
         request,
         "client/chatbot/index_ui.html", context=content,
     )
-##TODO:回傳失敗訊息
+
 @require_http_methods(["POST"])
 def api_chat_with_bot(request):
     if request.method == 'POST':
         user_message = request.POST.get('message')
         chatbot_id = request.POST.get('chatbot_id')
         chatbot=Chatbot.objects.find_chatbot_by_id(chatbot_id)
-        chatbot_response = get_chatbot_response(user_message,chatbot)
-        serializer = ChatMessageSerializer(chatbot_response)
+        chatbot_responses = get_chatbot_response(user_message,chatbot)
+        #  检查是否响应是单个对象还是列表
+        if isinstance(chatbot_responses, list):
+            serializer = ChatMessageSerializer(chatbot_responses, many=True)
+        else:
+            serializer = ChatMessageSerializer(chatbot_responses)
         return JsonResponse({'data': serializer.data})
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
