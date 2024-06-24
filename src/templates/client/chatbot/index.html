@@ -132,7 +132,6 @@
                       <div
                         id="chat-user-detail-popup"
                         class="scroller"
-                        class="scroller"
                       >
                         <div class="user-profile text-center">
                           <button type="submit" class="close-popup p-3">
@@ -237,7 +236,13 @@
                     </header>
                   </div>
                   <div class="chat-content scroller"></div>
-                  <div class="chat-footer p-3 bg-white">
+                  <div class="chat-footer">
+                    <button type="button" class="btn mb-1 btn-outline-primary" id="askQuestionButton"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">開始出題</font><span class="badge badge-primary ml-2" _msttexthash="4732" _msthash="138">10</span>
+                    </button>
+                    <button type="button" class="btn mb-1 btn-outline-success"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">測試</font><span class="badge badge-success ml-2" _msttexthash="4732" _msthash="138">2</span>
+                    </button>
+                  </div>
+                  <div class="chat-footer p-1 bg-white">
                     <form
                       class="d-flex align-items-center"
                       action="javascript:void(0);"
@@ -265,7 +270,7 @@
                         class="btn btn-primary d-flex align-items-center p-2"
                       >
                         <i class="fa fa-paper-plane-o" aria-hidden="true"></i
-                        ><span class="d-none d-lg-block ml-1">提交</span>
+                        ><span class="d-none d-lg-block ml-1">➤</span>
                       </button>
                     </form>
                   </div>
@@ -283,7 +288,6 @@
 
       //https://ppcode.net/blog/zh-tw/post/implement-syntax-highlighting-one-click-copy-button-using-highlight-js
       function init() {
-        //loadCode();
         initHljs();
         const chatbotId = $("#chatbotId").val();
         fetchAndDisplayMessages(chatbotId);
@@ -295,15 +299,6 @@
         hljs.highlightAll();
         hljs.initLineNumbersOnLoad();
         hljs.addPlugin(new CopyButtonPlugin());
-      }
-      function loadCode() {
-        var hardcodedCode = `
-def say_hello():
-    for i in range(5):
-        print("Hello, world
-say_hello()
-            `;
-        $("#code-container").text(hardcodedCode);
       }
       function setRocognition() {
         // 檢查瀏覽器是否支持SpeechRecognition API
@@ -383,7 +378,7 @@ say_hello()
         });
       }
       // 封裝的 AJAX 請求函數
-      function sendChatRequest(message, onSuccess, onError) {
+      function sendChatRequest(message,role, onSuccess, onError) {
         const chatbotId = $("#chatbotId").val(); // 獲取聊天機器人的 ID
 
         $.ajax({
@@ -392,6 +387,7 @@ say_hello()
           data: {
             csrfmiddlewaretoken: "{{ csrf_token }}",
             message: message,
+            role: role,
             chatbot_id: chatbotId,
           },
           success: onSuccess, // 使用回調函數處理成功情況
@@ -400,11 +396,11 @@ say_hello()
       }
 
       // 處理發送消息的功能
-      function sendMessage(message) {
+      function sendMessage(role,message) {
         const chatContainer = $(".chat-content");
         const now = new Date();
         const userMessage = appendMessage(
-          "user",
+          role,
           '{% static "images/user/1.jpg" %}',
           formattedTime(now),
           (messageText = message)
@@ -422,6 +418,7 @@ say_hello()
 
         sendChatRequest(
           message,
+          role,
           function (response) {
             $("#loadingMessage").remove();
             // 确保是针对 response.data 数组使用 forEach
@@ -449,7 +446,7 @@ say_hello()
         e.preventDefault();
         const message = $('input[type="text"]').val();
         if (message.trim() !== "") {
-          sendMessage(message);
+          sendMessage('user',message);
           $('input[type="text"]').val("");
         }
       });
@@ -570,6 +567,18 @@ say_hello()
             alert("Error updating threads: " + xhr.responseText);
           },
         });
+      });
+      $("#askQuestionButton").click(function (event) {
+        event.preventDefault(); // 阻止默认表单提交行为
+
+        const chatbotId = $("#chatbotId").val(); // 獲取聊天機器人的 ID
+
+        if (!chatbotId) {
+          alert("Chatbot ID is required");
+          return;
+        }
+
+        sendMessage('assistant','請問while是什麼?');
       });
     });
   </script>

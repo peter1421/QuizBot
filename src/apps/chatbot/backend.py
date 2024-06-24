@@ -13,11 +13,7 @@ client = OpenAI(api_key=settings.API_KEY)
 
 
 def create_threads_id(content="HI"):
-    thread = client.beta.threads.create(
-        messages=[
-            {"role": "user", "content": content},
-        ],
-    )
+    thread = client.beta.threads.create()
     return thread.id
 
 
@@ -30,16 +26,18 @@ def find_assistant_by_id(chapter_id):
         return "Chapter not found or no assistants associated."
 
 
-def continue_conversation(user_input, chatbot):
+def continue_conversation(messages, chatbot):
     """繼續對話並處理用戶的新輸入"""
     chapter_id = chatbot.chapter.id
     thread_id = chatbot.now_thread
     assistant_id = find_assistant_by_id(chapter_id)
-    client.beta.threads.messages.create(
-        thread_id=thread_id,
-        role="user",
-        content=user_input,
-    )
+    # 逐一創建所有訊息
+    for message in messages:
+        client.beta.threads.messages.create(
+            thread_id=thread_id,
+            role=message["role"],
+            content=message["content"],
+        )
     run = client.beta.threads.runs.create(
         thread_id=thread_id, assistant_id=assistant_id)
     run = wait_for_completion(thread_id, run.id)
@@ -86,56 +84,29 @@ def get_latest_message(messages):
     return "No messages found."
 
 
-def get_chatbot_response(user_input, chatbot):
+def get_chatbot_response(messages, chatbot):
     print(f"使用settings.API_KEY:{settings.API_KEY}")
-    state = continue_conversation(user_input, chatbot)
     thread_id = chatbot.now_thread
-    chatbot_response=[]
+    oringinal_message = get_threads_message(thread_id)
+    oringinal_message_length = len(oringinal_message)
+    state = continue_conversation(messages, chatbot)
+    chatbot_response = []
     try:
         if state:
             messages = get_threads_message(thread_id)
-            # chatbot_response = load_chat_message(messages, chatbot)
-            chatbot_response.append(load_chat_message(messages, chatbot))
-            t1=ChatMessage.objects.create(
-                chatbot=chatbot,
-                role="assistant",
-                content='測試多重回應',
-                tag="錯誤",
-                created_at=timezone.now(),
-                thread_id=thread_id
-            )
-            chatbot_response.append(t1)
+            messages_length = len(messages)
+            # oringinal_message_length+=1 # 已經預先推送消息
+            while messages_length > oringinal_message_length:
+                oringinal_message_length +=1
+                last_message = create_chat_message(messages[messages_length-oringinal_message_length], chatbot)
+                chatbot_response.append(last_message)
         else:
             messages = "對不起我不太清楚，請稍後再試，或是聯繫管理員。"
-            chatbot_response = ChatMessage.objects.create(
-                chatbot=chatbot,
-                role="assistant",
-                content=messages,
-                tag="錯誤",
-                created_at=datetime.now(),
-                thread_id=thread_id
-            )
+            chatbot_response = create_error_message(messages, chatbot)
     except Exception as e:
         messages = f"在獲取最新消息時發生錯誤：{str(e)}"
-        chatbot_response = ChatMessage.objects.create(
-            chatbot=chatbot,
-            role="assistant",
-            content=messages,
-            tag="錯誤",
-            created_at=datetime.now(),
-            thread_id=thread_id
-        )
+        chatbot_response = create_error_message(messages, chatbot)
     return chatbot_response
-
-
-def load_chat_message(messages, chatbot):
-    """保存聊天訊息"""
-    latest_user_message = messages[1]
-    latest_assistant_message = messages[0]
-    create_chat_message(latest_user_message, chatbot)
-    latest_assistant_response = create_chat_message(
-        latest_assistant_message, chatbot)
-    return latest_assistant_response
 
 
 def create_chat_message(message, chatbot):
@@ -162,3 +133,19 @@ def create_chat_message(message, chatbot):
         thread_id=thread_id
     )
     return created_message
+
+
+def create_error_message(content_text, chatbot):
+    timezone = pytz.timezone(settings.TIME_ZONE)
+    created_at = datetime.fromtimestamp(datetime.now(), tz=timezone)
+
+    # 呼叫 error_message 儲存訊息
+    error_message = ChatMessage.objects.create(
+        chatbot=chatbot,
+        role='assistant',
+        content=content_text,
+        tag="錯誤",
+        created_at=created_at,
+        thread_id=chatbot.now_thread
+    )
+    return error_message
