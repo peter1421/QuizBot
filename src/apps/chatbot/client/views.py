@@ -47,8 +47,8 @@ def index_ui(request):
 def api_chat_with_bot(request):
     if request.method == 'POST':
         user_message = request.POST.get('message')
-        chatbot_id = request.POST.get('chatbot_id')
         role = request.POST.get('role')
+        chatbot_id = request.POST.get('chatbot_id')
         chatbot = Chatbot.objects.find_chatbot_by_id(chatbot_id)
         messages = [
             {"role": role, "content": user_message},
