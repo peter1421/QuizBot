@@ -12,8 +12,12 @@ from openai import OpenAI
 client = OpenAI(api_key=settings.API_KEY)
 
 
-def create_threads_id(content="HI"):
-    thread = client.beta.threads.create()
+def create_threads_id(content="你好，我是幫你考驗你Python知識的機器人，接下來我會幫開始問你問題並針對你的知識程度評價\n規則:1.採用一問一答，請認真回復"):
+    thread = client.beta.threads.create(
+        messages=[
+            {"role": "assistant", "content": content},
+        ],
+    )
     return thread.id
 
 

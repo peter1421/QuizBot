@@ -1,6 +1,7 @@
 # views.py
 
 
+import json
 from apps.chapter.models import Chapter
 from apps.chatbot.backend import create_threads_id, get_chatbot_response
 from apps.chatbot.models import Chatbot, ChatMessage
@@ -42,17 +43,22 @@ def index_ui(request):
         "client/chatbot/index_ui.html", context=content,
     )
 
-
+# {
+#   "csrfmiddlewaretoken": "your_csrf_token_here",
+#   "messages": [
+#     {"role": "user", "content": "Hello, how are you?"},
+#     {"role": "assistant", "content": "I'm good, thank you! How can I assist you today?"}
+#   ],
+#   "chatbot_id": "your_chatbot_id_here"
+# }
+# TODO:多重請求
 @require_http_methods(["POST"])
 def api_chat_with_bot(request):
     if request.method == 'POST':
-        user_message = request.POST.get('message')
-        role = request.POST.get('role')
-        chatbot_id = request.POST.get('chatbot_id')
+        data = json.loads(request.body.decode('utf-8'))
+        messages = data.get('messages', [])
+        chatbot_id = data.get('chatbot_id')
         chatbot = Chatbot.objects.find_chatbot_by_id(chatbot_id)
-        messages = [
-            {"role": role, "content": user_message},
-        ]
         chatbot_responses = get_chatbot_response(messages, chatbot)
         #  检查是否响应是单个对象还是列表
         if isinstance(chatbot_responses, list):
