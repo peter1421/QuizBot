@@ -1,16 +1,69 @@
 <div class="card">
-  {% comment %} <div class="card-header d-flex justify-content-between">
+  {% comment %}
+  <div class="card-header d-flex justify-content-between">
     <div class="header-title">
       <h4 class="card-title">Column Chart</h4>
     </div>
-  </div> {% endcomment %}
+  </div>
+  {% endcomment %}
+  <div class="card-header d-flex justify-content-between">
+    <div class="header-title">
+      <h4 class="card-title">解釋評分</h4>
+    </div>
+  </div>
   <div class="card-body">
-    <div id="apex-column"></div>
+    <div id="test1"></div>
   </div>
   <div class="chat-footer">
-    <button type="button" class="btn mb-1 btn-outline-primary" id="askCodeScore"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">詢問評分原因(施工中)</font><span class="badge badge-primary ml-2" _msttexthash="4732" _msthash="138">10</span>
-    </button>
-    <button type="button" class="btn mb-1 btn-outline-success"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">測試</font><span class="badge badge-success ml-2" _msttexthash="4732" _msthash="138">2</span>
-    </button>
+    <button type="button" class="btn mb-1 btn-outline-primary" id="askCodeScore"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">詢問評分原因(施工中)</font><span class="badge badge-primary ml-2" _msttexthash="4732" _msthash="138">10</span></button>
+    <button type="button" class="btn mb-1 btn-outline-success"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">測試</font><span class="badge badge-success ml-2" _msttexthash="4732" _msthash="138">2</span></button>
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+    
+    var options = {
+      chart: {
+        height: 350,
+        type: "bar",
+      },
+      dataLabels: {
+        enabled: !1,
+      },
+      stroke: {
+        curve: "smooth",
+      },
+      colors: ["#4788ff", "#ff4b4b"],
+      series: [
+        {
+          name: "機器人評分",
+          data: [31, 40, 28, 51, 42],
+        },
+        {
+          name: "助教評分",
+          data: [11, 32, 45, 32, 34],
+         // data: [0, 0, 0, 0, 0],
+        },
+      ],
+      xaxis: {
+        categories: [
+        "第一題",
+        "第二題",
+        "第三題",
+        "第四題",
+        "第五題",
+        ],
+      },
+      tooltip: {
+        y: {
+          formatter: function (e) {
+            return e + "  分";
+          },
+        },
+      },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#test1"), options);
+    chart.render();
+  });
+</script>

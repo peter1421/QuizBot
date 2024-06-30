@@ -67,6 +67,8 @@ class Chatbot(models.Model):
     now_thread = models.CharField(
         max_length=200, verbose_name="目前聊天序列")  # 目前處理的執行緒或過程的標識符
     code = models.TextField(verbose_name="Python程式碼", blank=True, null=True)
+    message_file = models.CharField(max_length=255, verbose_name="上傳檔案 ID", null=True, blank=True)  
+
     objects = ChatbotManager()
 
     class Meta:

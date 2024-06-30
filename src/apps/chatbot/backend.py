@@ -1,12 +1,14 @@
+import io
 import time
 from datetime import datetime
+from typing_extensions import override
 
 import pytz
 from apps.chapter.models import Chapter
 from apps.chatbot.models import ChatMessage
 from django.conf import settings
 from django.utils import timezone
-from openai import OpenAI
+from openai import OpenAI,AssistantEventHandler
 
 # 全局初始化 OpenAI 客戶端
 client = OpenAI(api_key=settings.API_KEY)
@@ -41,6 +43,7 @@ def continue_conversation(messages, chatbot):
             thread_id=thread_id,
             role=message["role"],
             content=message["content"],
+            attachments=message.get("attachments", []),
         )
     run = client.beta.threads.runs.create(
         thread_id=thread_id, assistant_id=assistant_id)
@@ -93,6 +96,8 @@ def get_chatbot_response(messages, chatbot):
     thread_id = chatbot.now_thread
     oringinal_message = get_threads_message(thread_id)
     oringinal_message_length = len(oringinal_message)
+    
+    add_attachments_to_messages(messages, make_attachments(chatbot))
     state = continue_conversation(messages, chatbot)
     chatbot_response = []
     try:
@@ -101,8 +106,9 @@ def get_chatbot_response(messages, chatbot):
             messages_length = len(messages)
             # oringinal_message_length+=1 # 已經預先推送消息
             while messages_length > oringinal_message_length:
-                oringinal_message_length +=1
-                last_message = create_chat_message(messages[messages_length-oringinal_message_length], chatbot)
+                oringinal_message_length += 1
+                last_message = create_chat_message(
+                    messages[messages_length-oringinal_message_length], chatbot)
                 chatbot_response.append(last_message)
         else:
             messages = "對不起我不太清楚，請稍後再試，或是聯繫管理員。"
@@ -153,3 +159,63 @@ def create_error_message(content_text, chatbot):
         thread_id=chatbot.now_thread
     )
     return error_message
+
+
+def update_file(file, chatbot):
+    file_stream = io.BytesIO(file.read())
+        # 假设原始文件名在 file 对象中通过 name 属性访问
+    file_name = "default_filename.pdf"
+    message_file = client.files.create(
+        file=file_stream, purpose='assistants',filename=file_name
+    )
+    print(f"File ID: {message_file.id}")
+    chatbot.message_file = str(message_file.id)
+    chatbot.save()
+    return message_file
+
+
+def make_attachments(chatbot):
+    # 检查 message_file_id 是否存在和有效
+    if chatbot.message_file:
+        return [
+            {
+                "file_id": chatbot.message_file,  # 这里假设这个 ID 是已经存在的
+                "tools": [{"type": "file_search"}]
+            }
+        ]
+    else:
+        return None  # 或者返回空列表 [], 根据你的需求
+
+
+def add_attachments_to_messages(messages, attachments):
+    # 遍历所有消息
+    for message in messages:
+        # 检查是否为用户角色
+        if message['role'] == 'user' and attachments:
+            # 为这条消息添加附件
+            message['attachments'] = attachments
+class EventHandler(AssistantEventHandler):
+    @override
+    def on_text_created(self, text) -> None:
+        print(f"\nassistant > ", end="", flush=True)
+
+    @override
+    def on_tool_call_created(self, tool_call):
+        print(f"\nassistant > {tool_call.type}\n", flush=True)
+
+    @override
+    def on_message_done(self, message) -> None:
+        # print a citation to the file searched
+        message_content = message.content[0].text
+        annotations = message_content.annotations
+        citations = []
+        for index, annotation in enumerate(annotations):
+            message_content.value = message_content.value.replace(
+                annotation.text, f"[{index}]"
+            )
+            if file_citation := getattr(annotation, "file_citation", None):
+                cited_file = client.files.retrieve(file_citation.file_id)
+                citations.append(f"[{index}] {cited_file.filename}")
+
+        print(message_content.value)
+        print("\n".join(citations))

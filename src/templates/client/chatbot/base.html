@@ -15,30 +15,27 @@
                   <div class="chat-sidebar-channel scroller mt-4">
                     <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab-1" role="tablist">
                       <li class="nav-item">
-                        <a class="nav-link" id="pills-home-tab-fill" data-toggle="pill" href="#code-container" role="tab" aria-controls="pills-home" aria-selected="false" _msttexthash="2136498" _msthash="165">提交程式碼</a>
+                        <a class="nav-link" id="pills-home-tab-fill" data-toggle="pill" href="#code-container" role="tab" aria-controls="pills-home" aria-selected="false" _msttexthash="2136498" _msthash="165">無資料</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link active" id="pills-profile-tab-fill" data-toggle="pill" href="#pills-profile-fill" role="tab" aria-controls="pills-profile" aria-selected="true" _msttexthash="5859750" _msthash="166">評分</a>
+                        <a class="nav-link active" id="pills-profile-tab-fill" data-toggle="pill" href="#pills-profile-fill" role="tab" aria-controls="pills-profile" aria-selected="true" _msttexthash="5859750" _msthash="166">上傳檔案</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="pills-contact-tab-fill" data-toggle="pill" href="#pills-contact-fill" role="tab" aria-controls="pills-contact" aria-selected="false" _msttexthash="6357741" _msthash="167">其他</a>
+                        <a class="nav-link" id="pills-contact-tab-fill" data-toggle="pill" href="#pills-contact-fill" role="tab" aria-controls="pills-contact" aria-selected="false" _msttexthash="6357741" _msthash="167">評分</a>
                       </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent-1">
                       <div class="tab-pane fade" id="code-container" role="tabpanel" aria-labelledby="pills-home-tab-fill">
-                        {% comment %} {% include 'client/chatbot/code.html' %} {% endcomment %}
-                        <pre><code class="language-python" id="code-container">
-                          {{ chatbot.formatted_code|safe }}
-                      </code></pre>
+                        <p>空的</p>
                       </div>
                       <div class="tab-pane show active" id="pills-profile-fill" role="tabpanel" aria-labelledby="pills-profile-tab-fill">
                         <div class="row">
-                          <div class="col-sm-12">{% include 'client/dashboard/python_dashboard/code_rating.html' %}</div>
-                          <div class="col-sm-12">{% include 'client/dashboard/python_dashboard/radar_multiple.html' %}</div>
+                          <div class="col-sm-12">{% include 'client/chatbot/update_file.html' %}</div>
                         </div>
                       </div>
                       <div class="tab-pane fade" id="pills-contact-fill" role="tabpanel" aria-labelledby="pills-contact-tab-fill">
-                        <p>待補</p>
+                        <div class="col-sm-12">{% include 'client/dashboard/python_dashboard/code_rating.html' %}</div>
+                        <div class="col-sm-12">{% include 'client/dashboard/python_dashboard/radar_multiple.html' %}</div>
                       </div>
                     </div>
                   </div>
@@ -123,11 +120,11 @@
 
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill mt-2" id="askQuestionButton"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">窩不知道</font></button>
                     <button type="button" class="btn btn-outline-success btn-sm rounded-pill mt-2" id="askAns"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">索取答案</font></button>
-                    <button type="button" class="btn btn-outline-danger btn-sm rounded-pill mt-2" id="q1Ans"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">Q1答案</font></button>
+                    {% comment %} <button type="button" class="btn btn-outline-danger btn-sm rounded-pill mt-2" id="q1Ans"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">Q1答案</font></button>
                     <button type="button" class="btn btn-outline-danger btn-sm rounded-pill mt-2" id="q2Ans"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">Q2答案</font></button>
                     <button type="button" class="btn btn-outline-danger btn-sm rounded-pill mt-2" id="q2_2Ans"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">Q2答案V2</font></button>
                     <button type="button" class="btn btn-outline-danger btn-sm rounded-pill mt-2" id="q3Ans"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">Q3答案</font></button>
-                    <button type="button" class="btn btn-outline-danger btn-sm rounded-pill mt-2" id="q3_2Ans"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">Q3V2答案</font></button>
+                    <button type="button" class="btn btn-outline-danger btn-sm rounded-pill mt-2" id="q3_2Ans"><font _mstmutation="1" _msttexthash="6549062" _msthash="137">Q3V2答案</font></button> {% endcomment %}
                     {% comment %} {% endcomment %}
                   </div>
                   <div class="chat-footer p-1 bg-white">
@@ -161,7 +158,6 @@
         // 使用回调确保消息加载完毕后再继续
         fetchAndDisplayMessages(chatbotId, function () {
           setRocognition();
-          question();
         });
       }
       function question() {
@@ -173,11 +169,9 @@
             if (currentQuestionIndex < questions.length) {
               messageElements.push(updateMessage("assistant", questions[currentQuestionIndex]));
             } else {
-              endMessageText="所有問題都已回答完畢，接下來我會將這次測驗的所有訊息做出總結，你可以開始與我討論。"
-              const messages = [
-                  { role: "assistant", content: endMessageText }
-                ];
-              messageElements.push(updateMessage("assistant",endMessageText ));
+              endMessageText = "所有問題都已回答完畢，接下來我會將這次測驗的所有訊息做出總結，你可以開始與我討論。";
+              const messages = [{ role: "assistant", content: endMessageText }];
+              messageElements.push(updateMessage("assistant", endMessageText));
               sendMessage(messages);
             }
           }, 2000); // 2000 毫秒後執行，即 2 秒
@@ -202,17 +196,15 @@
               // 发送消息，并在回调中执行后续的提问
               sendMessage(messages, function () {
                 currentQuestionIndex++;
-                
+
                 askNextQuestion(); // 现在放在回调中执行
               });
             }
-          }else{
+          } else {
             messageElements.push(updateMessage("user", messageText));
-              $('input[type="text"]').val(""); // 清空輸入框
-              const messages = [
-                { role: "user", content: messageText }
-              ];
-              sendMessage(messages)
+            $('input[type="text"]').val(""); // 清空輸入框
+            const messages = [{ role: "user", content: messageText }];
+            sendMessage(messages);
           }
         });
 
@@ -366,19 +358,16 @@
         );
       }
 
-      /*$("form").submit(function (e) {
+      $("form").submit(function (e) {
         e.preventDefault();
         const messageText = $('input[type="text"]').val();
         if (messageText.trim() !== "") {
-          messageElements.push(updateMessage('user',messageText));
-          const messages = [
-          {"role": "user", "content": messageText},
-          ];
+          messageElements.push(updateMessage("user", messageText));
+          const messages = [{ role: "user", content: messageText }];
           sendMessage(messages);
           $('input[type="text"]').val("");
-
         }
-      });*/
+      });
 
       function loadingMessage() {
         const cards = getCardsData();
@@ -479,7 +468,7 @@
       });
       $("#sayHi").click(function (event) {
         event.preventDefault(); // 防止任何默认操作
-        $('input[type="text"]').val("兄弟你好");
+        $('input[type="text"]').val("你好，你覺得我上傳的檔案如何?");
         $("form").submit();
       });
       $("#askQuestionButton").click(function (event) {
@@ -537,6 +526,29 @@
           return;
         }
         sendMessage("user", "請問為什麼這樣評分?");
+      });
+      $("#uploadFileButton").click(function () {
+        var formData = new FormData();
+        const chatbotId = $("#chatbotId").val(); // 獲取聊天機器人的 ID
+        formData.append("file", $("input[type=file]")[0].files[0]);
+        formData.append("chatbot_id", chatbotId);
+        formData.append("csrfmiddlewaretoken", "{{ csrf_token }}"); // 添加 CSRF token
+        $.ajax({
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken") // 设置 CSRF 令牌头
+          },
+          url: "{% url 'api_upload_file' %}",
+          type: "POST",
+          data: formData,
+          processData: false, // 告訴jQuery不要處理發送的數據
+          contentType: false, // 告訴jQuery不要設置Content-Type請求頭
+          success: function (data) {
+            alert("Upload successful!", data);
+          },
+          error: function (data) {
+            alert("An error occurred.", data);
+          }
+        });
       });
     });
   </script>

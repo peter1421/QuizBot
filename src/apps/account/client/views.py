@@ -10,7 +10,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-
+def userlist_ui(request):
+    content = {}
+    return render(
+        request,
+        "client/account/ui_userlist.html",
+        context=content,
+    )
 def register_index(request):
     form = AccountCreationForm(request.POST or None)
     if request.method == "POST" and form.is_valid():

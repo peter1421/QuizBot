@@ -247,7 +247,7 @@
       },
       yaxis: {
         title: {
-          text: "分數1",
+          text: "分數",
         },
       },
       fill: {
@@ -256,7 +256,7 @@
       tooltip: {
         y: {
           formatter: function (e) {
-            return "$ " + e + "  分";
+            return e + "  分";
           },
         },
       },

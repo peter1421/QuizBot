@@ -2,23 +2,22 @@
 ## 
 
 ## Start
-```
-python -m venv env 
-.\env\Scripts\activate
-```
-```
-pip install -r requirements.txt
-```
 
 ```
 cd QuizBot
+python -m venv env 
+.\env\Scripts\activate
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
 python manage.py collectstatic
 python manage.py runserver
 ```
 
 
-python manage.py makemigrations
-python manage.py migrate
+
+
+
 
 ## 環境
 https://ithelp.ithome.com.tw/articles/10321817

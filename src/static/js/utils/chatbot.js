@@ -46,7 +46,7 @@ function appendMessage(
   const sideClass = side === "assistant" ? " chat-left" : ""; // 根據發送方決定消息框位置
   const chatMessageClass =
     side === "assistant"
-      ? " chat-message btn btn-outline-primary mt-2"
+      ? " chat-message btn btn-outline-primary"
       : "chat-message";
   const chatUser = setUser(imgSrc, time);
   messageText = escapeHtml(messageText);

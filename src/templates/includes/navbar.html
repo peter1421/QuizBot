@@ -28,22 +28,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto navbar-list align-items-center">
             <li class="nav-item">
-              <a href="#" class="nav-link active" id="chatroom-link">聊天室</a>
+              <a href="/client/chatbot/index/1/" class="nav-link active" id="chatroom-link">聊天室(課程一)</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link active" id="forum-link">討論</a>
+              <a href="{% url 'client_chapter_index' %}" class="nav-link active" id="class-link">課程列表</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link active" id="blankpage-link">空白頁</a>
+              <a href="{% url 'userlist_ui' %}" class="nav-link active" id="member-link">學生列表</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link active" id="homework-link"
-                >回家作業</a
-              >
-            </li>
+
             <li class="nav-item">
               <a href="#" class="nav-link active" id="dashboard-link">儀表板</a>
             </li>
+            
+            
 
             <li class="nav-item nav-icon nav-item-icon dropdown">
               <a

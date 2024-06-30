@@ -3,7 +3,7 @@
 
 import json
 from apps.chapter.models import Chapter
-from apps.chatbot.backend import create_threads_id, get_chatbot_response
+from apps.chatbot.backend import create_threads_id, get_chatbot_response, update_file
 from apps.chatbot.models import Chatbot, ChatMessage
 from apps.chatbot.serializers import ChatMessageSerializer
 from django.contrib import messages
@@ -24,7 +24,7 @@ def index(request, chapter_id=None):
         chatbot, created = Chatbot.objects.get_or_create(
             account=user, chapter=chapter)
         if created:
-            now_thread = create_threads_id()
+            now_thread = create_threads_id(content=chapter.content)
             chatbot.now_thread = now_thread
             chatbot.save()
     context = {
@@ -34,7 +34,24 @@ def index(request, chapter_id=None):
         request,
         "client/chatbot/index.html", context=context,
     )
+def base(request, chapter_id=None):
+    user = request.user if request.user.is_authenticated else None
 
+    chapter = get_object_or_404(Chapter, id=chapter_id) if chapter_id else None
+    if chapter is not None:
+        chatbot, created = Chatbot.objects.get_or_create(
+            account=user, chapter=chapter)
+        if created:
+            now_thread = create_threads_id(content=chapter.content)
+            chatbot.now_thread = now_thread
+            chatbot.save()
+    context = {
+        "chatbot": chatbot,
+    }
+    return render(
+        request,
+        "client/chatbot/base.html", context=context,
+    )
 
 def index_ui(request):
     content = {}
@@ -95,3 +112,15 @@ def api_update_threads(request):
         return JsonResponse({'error': 'Chatbot not found'}, status=404)
     except Exception as e:  # 捕获其他可能的错误
         return JsonResponse({'error': str(e)}, status=500)
+
+@require_http_methods(["POST"])
+def api_upload_file(request):
+    if request.method == 'POST':
+        chatbot_id = request.POST.get('chatbot_id')
+        file = request.FILES.get('file')
+        if file:
+            # 將檔案上傳至OpenAI
+            chatbot = Chatbot.objects.find_chatbot_by_id(chatbot_id)
+            message_file=update_file(file,chatbot)
+            return JsonResponse({'message': 'File uploaded successfully', 'file_id': message_file.id})
+        return JsonResponse({'error': 'No file provided'}, status=400)
