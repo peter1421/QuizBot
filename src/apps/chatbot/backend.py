@@ -1,14 +1,15 @@
 import io
 import time
 from datetime import datetime
-from typing_extensions import override
 
 import pytz
 from apps.chapter.models import Chapter
 from apps.chatbot.models import ChatMessage
 from django.conf import settings
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
-from openai import OpenAI,AssistantEventHandler
+from openai import AssistantEventHandler, OpenAI
+from typing_extensions import override
 
 # 全局初始化 OpenAI 客戶端
 client = OpenAI(api_key=settings.API_KEY)
@@ -161,12 +162,18 @@ def create_error_message(content_text, chatbot):
     return error_message
 
 
-def update_file(file, chatbot):
-    file_stream = io.BytesIO(file.read())
-        # 假设原始文件名在 file 对象中通过 name 属性访问
-    file_name = "default_filename.pdf"
+def update_file(file_obj, chatbot):
+        # 將 Django 文件對象轉換為字節
+    if isinstance(file_obj, InMemoryUploadedFile):
+        file_stream = io.BytesIO(file_obj.read())
+        file_tuple = (file_obj.name, file_stream)  # 包含文件名和文件流的元組
+    else:
+        raise ValueError("不支持的文件類型")
+
+    # 在 OpenAI 系統中創建文件
     message_file = client.files.create(
-        file=file_stream, purpose='assistants',filename=file_name
+        file=file_tuple,  # 使用元組包括文件名和文件流
+        purpose="assistants"
     )
     print(f"File ID: {message_file.id}")
     chatbot.message_file = str(message_file.id)

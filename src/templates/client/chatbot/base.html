@@ -18,10 +18,10 @@
                         <a class="nav-link" id="pills-home-tab-fill" data-toggle="pill" href="#code-container" role="tab" aria-controls="pills-home" aria-selected="false" _msttexthash="2136498" _msthash="165">無資料</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link active" id="pills-profile-tab-fill" data-toggle="pill" href="#pills-profile-fill" role="tab" aria-controls="pills-profile" aria-selected="true" _msttexthash="5859750" _msthash="166">上傳檔案</a>
+                        <a class="nav-link active" id="pills-profile-tab-fill" data-toggle="pill" href="#pills-profile-fill" role="tab" aria-controls="pills-profile" aria-selected="true" _msttexthash="5859750" _msthash="166">無資料</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="pills-contact-tab-fill" data-toggle="pill" href="#pills-contact-fill" role="tab" aria-controls="pills-contact" aria-selected="false" _msttexthash="6357741" _msthash="167">評分</a>
+                        <a class="nav-link" id="pills-contact-tab-fill" data-toggle="pill" href="#pills-contact-fill" role="tab" aria-controls="pills-contact" aria-selected="false" _msttexthash="6357741" _msthash="167">無資料</a>
                       </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent-1">
@@ -30,12 +30,12 @@
                       </div>
                       <div class="tab-pane show active" id="pills-profile-fill" role="tabpanel" aria-labelledby="pills-profile-tab-fill">
                         <div class="row">
-                          <div class="col-sm-12">{% include 'client/chatbot/update_file.html' %}</div>
+                          <p>空的</p>
                         </div>
                       </div>
                       <div class="tab-pane fade" id="pills-contact-fill" role="tabpanel" aria-labelledby="pills-contact-tab-fill">
-                        <div class="col-sm-12">{% include 'client/dashboard/python_dashboard/code_rating.html' %}</div>
-                        <div class="col-sm-12">{% include 'client/dashboard/python_dashboard/radar_multiple.html' %}</div>
+                          <div class="col-sm-12">{% include 'client/chatbot/update_file.html' %}</div>
+                          <p>空的</p>
                       </div>
                     </div>
                   </div>
@@ -130,6 +130,8 @@
                   <div class="chat-footer p-1 bg-white">
                     <form class="d-flex align-items-center" action="javascript:void(0);">
                       <div class="chat-attagement d-flex">
+                        {% comment %} <input type="file" class="form-control-file" id="uploadFileButton"  /> {% endcomment %}
+                        {% comment %} <a href="javascript:void();"><i class="fa fa-file pr-3" id="submitFileButton" aria-hidden="true"></i> </a> {% endcomment %}
                         <a href="javascript:void();"><i class="fa fa-microphone pr-3" id="trigger" aria-hidden="true"></i> </a>
                       </div>
 
@@ -527,6 +529,7 @@
         }
         sendMessage("user", "請問為什麼這樣評分?");
       });
+
       $("#uploadFileButton").click(function () {
         var formData = new FormData();
         const chatbotId = $("#chatbotId").val(); // 獲取聊天機器人的 ID
