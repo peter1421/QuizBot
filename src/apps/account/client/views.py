@@ -41,6 +41,12 @@ def register_index(request):
 
 
 def login_index(request):
+        # 登录页面初始请求
+    if request.method == "GET":
+        # 尝试从请求的 URL 中获取 'next' 参数
+        next_page = request.GET.get('next', '/home/')
+        request.session['next_page'] = next_page  # 将 'next' 参数存储在 session 中以便重用
+
     if request.method == "POST":
         username = request.POST.get("username")  # 用户可以输入username
         password = request.POST.get("password")
@@ -66,7 +72,9 @@ def login_index(request):
 
         if user is not None:
             login(request, user)
-            return redirect("/home/")  # 重定向
+            # 从 session 中获取 'next' 参数并重定向
+            next_page = request.session.get('next_page', '/home/')
+            return redirect(next_page)
 
     return render(request, "client/account/login/index.html")
 

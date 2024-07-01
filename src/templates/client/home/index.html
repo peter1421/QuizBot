@@ -6,13 +6,26 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
-        <h1>客戶端首頁</h1>
         <div class="iq-card">
           <div class="iq-card-header d-flex justify-content-between">
             <div class="iq-header-title">
               <h4 class="card-title">
                 <a href="{% url 'client_home_index' %}"> 客戶端-快速連結 </a>
               </h4>
+            </div>
+            
+          </div>
+          <div class="iq-card-body">
+            <div class="list-group">
+              {% if user.is_authenticated %}
+              <a class="list-group-item list-group-item-action">歡迎, {{ user.username }}</a>
+
+              <a class="list-group-item list-group-item-action" href="{% url 'client_chapter_index' %}">課程章節</a>
+              <a class="list-group-item list-group-item-action" href="{% url 'client_account_logout' %}">登出</a>
+              {% else %}
+              <a class="list-group-item list-group-item-action" href="{% url 'client_account_login_index' %}">登入</a>
+              <a class="list-group-item list-group-item-action" href="{% url 'client_account_register_index' %}">客戶端註冊</a>
+              {% endif %}
             </div>
           </div>
         </div>

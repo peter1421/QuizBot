@@ -2,12 +2,13 @@
 
 
 import json
+
 from apps.chapter.models import Chapter
 from apps.chatbot.backend import create_threads_id, get_chatbot_response, update_file
 from apps.chatbot.models import Chatbot, ChatMessage
 from apps.chatbot.serializers import ChatMessageSerializer
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required  # Django的内置登录装饰器
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -34,6 +35,8 @@ def index(request, chapter_id=None):
         request,
         "client/chatbot/index.html", context=context,
     )
+
+@login_required
 def base(request, chapter_id=None):
     user = request.user if request.user.is_authenticated else None
 

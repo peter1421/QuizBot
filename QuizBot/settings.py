@@ -169,7 +169,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "account.Account"
-LOGIN_URL = "/account/login/"
+LOGIN_URL = '/client/account/login_index'
 
 # CSRF_TRUSTED_ORIGINS = ["https://*", "http://*"]
 CSRF_TRUSTED_ORIGINS = ["https://*.azurewebsites.net"]
